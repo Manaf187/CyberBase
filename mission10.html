@@ -506,7 +506,6 @@ h1 {
 let currentStep = 1;
 let completedSteps = 0;
 
-// Initialize particles effect
 function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
@@ -521,7 +520,6 @@ function createParticle() {
 
 setInterval(createParticle, 2000);
 
-// Typing effect for mission brief
 function typeText(element, text, speed = 50) {
     let i = 0;
     element.innerHTML = '';
@@ -539,7 +537,6 @@ function typeText(element, text, speed = 50) {
     }, speed);
 }
 
-// Drag and drop functionality
 const cardsContainer = document.getElementById('cards');
 let draggingCard = null;
 
@@ -610,18 +607,14 @@ function completeStep(step) {
 function revealStep(step) {
     currentStep = step;
     
-    // Hide previous step
     document.getElementById(`step${step-1}`).style.display = 'none';
     
-    // Show current step with animation
     const stepElement = document.getElementById(`step${step}`);
     stepElement.style.display = 'block';
     stepElement.classList.add('active');
     
-    // Update status
     document.getElementById(`status${step}`).classList.add('active');
     
-    // Scroll to step
     stepElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
@@ -654,7 +647,6 @@ function checkStep2() {
             input.style.boxShadow = 'none';
         }, 1000);
         
-        // Show encouraging message
         alert('🔒 Incorrect decode! Make sure you\'ve properly decoded the Base64 string. Try using an online decoder or browser console.');
     }
 }
@@ -704,9 +696,7 @@ function toggleHint(hintId) {
     }
 }
 
-// Initialize the challenge
 window.onload = function() {
-    // Start typing effect after a short delay
     setTimeout(() => {
         const briefElement = document.getElementById('briefText');
         const text = briefElement.textContent;
@@ -714,7 +704,6 @@ window.onload = function() {
     }, 500);
 };
 
-// Add keyboard support for decode input and final input
 document.addEventListener('DOMContentLoaded', function() {
     const decodeInput = document.getElementById('decodeInput');
     if(decodeInput) {
@@ -737,4 +726,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
+
 </html>
