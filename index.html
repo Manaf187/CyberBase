@@ -66,12 +66,11 @@
         50% { opacity: 0.6; }
     }
 
-    /* Static Background Elements */
     .radar-container {
         display: none;
     }
 
-    /* Header Section */
+
     .header-container {
         text-align: center;
         padding: 2rem 0;
@@ -615,7 +614,7 @@
     </div>
 
     <script>
-        // Matrix Rain Effect
+        
         function createMatrixRain() {
             const matrixBg = document.getElementById('matrixBg');
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -632,7 +631,7 @@
             }
         }
 
-        // Loading sequence
+        
         function initializeSystem() {
             const loadingOverlay = document.getElementById('loadingOverlay');
             const loadingText = document.querySelector('.loading-text');
@@ -662,9 +661,9 @@
             }, 800);
         }
 
-        // Startup sound effects (visual feedback)
+        
         function playStartupSounds() {
-            // Create visual feedback for "sounds"
+        
             const statusItems = document.querySelectorAll('.status-indicator');
             statusItems.forEach((item, index) => {
                 setTimeout(() => {
@@ -673,7 +672,7 @@
             });
         }
 
-        // Mission card hover effects
+        
         function initializeMissionCards() {
             const cards = document.querySelectorAll('.mission-card');
             
@@ -691,13 +690,13 @@
             });
         }
 
-        // Initialize everything when page loads
+        
         window.addEventListener('load', () => {
             initializeSystem();
             initializeMissionCards();
         });
 
-        // Add typing effect to subtitle
+        
         function typeWriter(element, text, speed = 100) {
             let i = 0;
             element.textContent = '';
@@ -718,7 +717,7 @@
             type();
         }
 
-        // Easter egg - Konami code
+        
         let konamiCode = [];
         const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
 
@@ -737,7 +736,7 @@
             }
         });
 
-        // Add hue-rotate animation
+        
         const style = document.createElement('style');
         style.textContent = `
             @keyframes hue-rotate {
@@ -750,3 +749,4 @@
 </body>
 
 </html>
+
