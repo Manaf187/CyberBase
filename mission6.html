@@ -28,7 +28,6 @@ body {
     position: relative;
 }
 
-/* Animated background particles */
 .particles {
     position: fixed;
     top: 0;
@@ -53,7 +52,6 @@ body {
     50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
 }
 
-/* Glitch effect overlay */
 .glitch-overlay {
     position: fixed;
     top: 0;
@@ -385,7 +383,6 @@ h1 {
 </div>
 
 <script>
-// Create floating particles
 function createParticles() {
     const particlesContainer = document.querySelector('.particles');
     for (let i = 0; i < 50; i++) {
@@ -399,7 +396,6 @@ function createParticles() {
     }
 }
 
-// Enhanced typing animation
 const codeText = `chars = ['{','p','y','t','h','0','n','_','f','u','n','!','C','y','b','e','r','B','a','s','e','}']
 flag = ''.join(chars)
 print(flag)`;
@@ -422,7 +418,6 @@ function typeCode() {
     }
 }
 
-// Success animation
 function createSuccessAnimation() {
     const successDiv = document.createElement('div');
     successDiv.className = 'success-animation';
@@ -447,7 +442,6 @@ function createSuccessAnimation() {
     }, 5000);
 }
 
-// Enhanced answer checking with sound effects
 function checkAnswer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const correctFlag = "CyberBase{pyth0n_fun!}";
@@ -459,10 +453,8 @@ function checkAnswer() {
         messageElement.style.color = "#00ff00";
         flagElement.textContent = correctFlag;
         
-        // Create success animation
         createSuccessAnimation();
         
-        // Screen flash effect
         document.body.style.animation = "flash 0.5s";
         setTimeout(() => {
             document.body.style.animation = "";
@@ -473,7 +465,6 @@ function checkAnswer() {
         messageElement.style.color = "#ff3366";
         flagElement.textContent = "";
         
-        // Shake animation for wrong answer
         document.querySelector('.container').style.animation = "shake 0.5s";
         setTimeout(() => {
             document.querySelector('.container').style.animation = "";
@@ -481,7 +472,6 @@ function checkAnswer() {
     }
 }
 
-// Add flash and shake animations
 const style = document.createElement('style');
 style.textContent = `
     @keyframes flash {
@@ -497,20 +487,17 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     createParticles();
     setTimeout(typeCode, 1000); // Start typing after 1 second
 });
 
-// Enter key support
 document.getElementById('answer').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         checkAnswer();
     }
 });
 
-// Enhanced input effects
 document.getElementById('answer').addEventListener('input', function() {
     this.style.textShadow = '0 0 10px #00ff00';
     setTimeout(() => {
@@ -519,4 +506,5 @@ document.getElementById('answer').addEventListener('input', function() {
 });
 </script>
 </body>
+
 </html>
