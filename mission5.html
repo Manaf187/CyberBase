@@ -28,7 +28,6 @@ body {
     position: relative;
 }
 
-/* Simple matrix background */
 .matrix-bg {
     position: fixed;
     top: 0;
@@ -335,7 +334,6 @@ h1::before {
     50% { transform: scale(1.05); }
 }
 
-/* Hidden flag - much simpler approach */
 .secret-message {
     position: absolute;
     left: -9999px;
@@ -344,7 +342,6 @@ h1::before {
     user-select: none;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     h1 { font-size: 2.5em; letter-spacing: 1px; }
     .container { margin: 10px; padding: 20px; }
@@ -405,7 +402,6 @@ h1::before {
 </div>
 
 <script>
-// Simple matrix background
 function createMatrixEffect() {
     const matrixBg = document.getElementById('matrixBg');
     const chars = '01010110101010';
@@ -434,12 +430,10 @@ function checkLogin() {
     const password = document.getElementById('password').value;
     const messageElement = document.getElementById('loginMessage');
     
-    // Check correct credentials
     if (username === 'agent007' && password === 'secret123') {
         messageElement.innerHTML = '🎉 ACCESS GRANTED! 🎉<br>Flag: CyberBase{HTML_c0mm3nts_4r3_fun}';
         messageElement.classList.add('success');
         
-        // Add some celebration effects
         document.body.style.background = 'linear-gradient(135deg, #001100 0%, #003300 50%, #001100 100%)';
         
         setTimeout(() => {
@@ -449,7 +443,6 @@ function checkLogin() {
         return false;
     }
     
-    // Progressive hints for wrong attempts
     if (attempts === 1) {
         messageElement.innerHTML = '❌ ACCESS DENIED<br><small>Hmm, try looking for clues in the page source...</small>';
     } else if (attempts === 2) {
@@ -463,17 +456,14 @@ function checkLogin() {
     return false;
 }
 
-// Easter egg: Console message for curious students
 console.log('🕵️ Hey there, future hacker!');
 console.log('You found the console! This is where developers debug their code.');
 console.log('But the real treasure is in the HTML source code...');
 console.log('Try right-clicking and selecting "View Page Source"! 🔍');
 
-// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     createMatrixEffect();
     
-    // Fun typing effects
     const inputs = document.querySelectorAll('.input-field');
     inputs.forEach(input => {
         input.addEventListener('keydown', function() {
@@ -486,4 +476,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
+
 </html>
