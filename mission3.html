@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase – Mission 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #0a0a0a 0%, #0a2d0a 50%, #0a0a0a 100%);
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated background particles */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.3;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+
+/* Scanning effect */
+.scan-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff00, transparent);
+    animation: scan 3s linear infinite;
+    z-index: 2;
+}
+
+@keyframes scan {
+    0% { top: 0%; opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+.main-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+}
+
+.logo {
+    height: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px #00ff00);
+    animation: logoGlow 3s infinite ease-in-out;
+}
+
+@keyframes logoGlow {
+    0%, 100% { filter: drop-shadow(0 0 20px #00ff00); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 30px #00ff00); transform: scale(1.05); }
+}
+
+h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3em;
+    color: #00ff00;
+    text-shadow: 
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 40px #00ff00;
+    margin-bottom: 30px;
+    animation: titlePulse 2s infinite ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+h1::before {
+    content: 'METADATA HUNTER';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.3em;
+    color: #00ffaa;
+    font-weight: 400;
+    animation: subtitleFlicker 4s infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00; }
+    50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00; }
+}
+
+@keyframes subtitleFlicker {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0.5; }
+}
+
+.terminal {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00ff00;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.3),
+        inset 0 0 20px rgba(0, 255, 0, 0.1);
+    max-width: 700px;
+    position: relative;
+    font-size: 1.1em;
+    backdrop-filter: blur(10px);
+}
+
+.terminal::before {
+    content: '🔴 🟡 🟢';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 12px;
+}
+
+.terminal::after {
+    content: 'EXIF ANALYZER v3.1.4';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 10px;
+    color: #666;
+}
+
+.terminal p {
+    margin-bottom: 15px;
+}
+
+.terminal strong {
+    color: #00ffaa;
+    font-weight: bold;
+    text-shadow: 0 0 8px #00ffaa;
+}
+
+.challenge-img {
+    border: 3px solid #00ff00;
+    margin: 20px 0;
+    cursor: pointer;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    position: relative;
+}
+
+.challenge-img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+    border-color: #00ffaa;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin: 20px 0;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 255, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    color: #000;
+    background: rgba(0, 255, 0, 0.8);
+    text-shadow: none;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.download-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 50, 0, 0.9));
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 15px 10px;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.download-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.download-button:hover::before {
+    left: 100%;
+}
+
+.download-button:hover {
+    background: linear-gradient(45deg, #00ff00, #00cc00);
+    color: #000;
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.back-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 30, 30, 0.9));
+    color: #00ffaa;
+    border: 2px solid #00ffaa;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.back-button:hover {
+    background: linear-gradient(45deg, #00ffaa, #00cc88);
+    color: #000;
+    box-shadow: 0 0 25px rgba(0, 255, 170, 0.6);
+    transform: translateY(-2px);
+}
+
+.hint-box {
+    background: rgba(0, 40, 0, 0.7);
+    border: 1px solid #00aa00;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    font-size: 0.95em;
+}
+
+.hint-box h3 {
+    color: #00ffaa;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', monospace;
+}
+
+.hint-box ul {
+    margin-left: 20px;
+    line-height: 1.6;
+}
+
+.hint-box li {
+    margin-bottom: 8px;
+}
+
+.tools-list {
+    background: rgba(0, 20, 40, 0.7);
+    border: 1px solid #0088ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 0.9em;
+}
+
+.tools-list h4 {
+    color: #00aaff;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', monospace;
+}
+
+.command {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #555;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    color: #ffaa00;
+    margin: 5px 0;
+    display: block;
+}
+
+.warning {
+    background: rgba(40, 20, 0, 0.7);
+    border: 1px solid #ff6600;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    color: #ffaa00;
+}
+
+.warning strong {
+    color: #ff6600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 { font-size: 2.2em; letter-spacing: 1px; }
+    .main-content { padding: 15px; }
+    .terminal { padding: 20px; font-size: 1em; }
+    .download-button { padding: 12px 20px; font-size: 1em; margin: 10px 5px; }
+}
+
+/* Loading animation for image */
+.image-loading {
+    display: inline-block;
+    width: 300px;
+    height: 200px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 2px dashed #00ff00;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    color: #00aa00;
+}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="scan-line"></div>
+
+<div class="main-content">
+    <img src="logo.png" alt="CyberBase Logo" class="logo">
+    <h1>Mission 3: Metadata Hunt</h1>
+    
+    <div class="terminal">
+        <p><strong>🔍 DIGITAL FORENSICS CHALLENGE 🔍</strong></p>
+        <p>Agent, ShadowNet operatives have sent you a suspicious image. Intelligence suggests they've hidden critical data within the image's metadata (EXIF data).</p>
+        
+        <p><strong>Your Mission:</strong> Download the image and extract hidden information using metadata analysis tools.</p>
+        
+        <!-- Image container with hover effect -->
+        <div class="image-container">
+            <img src="mission3.jpg" alt="Suspicious Image - Contains Hidden Data" class="challenge-img" title="Right-click to save image">
+            <div class="image-overlay">
+                💾 CLICK TO ANALYZE
+            </div>
+        </div>
+        
+        <!-- Download buttons for different formats -->
+        <div style="text-align: center;">
+            <a href="mission3.jpg" download="suspicious_image.jpg" class="download-button">📥 Download JPG</a>
+            <a href="mission3.jpg" download="evidence.jpg" class="download-button">🔍 Save as Evidence</a>
+        </div>
+        
+        <div class="hint-box">
+            <h3>🎯 What you need to know:</h3>
+            <ul>
+                <li><strong>EXIF data</strong> = metadata stored in image files</li>
+                <li>Contains camera settings, GPS location, timestamps, and sometimes hidden messages</li>
+                <li>Professional investigators use this technique in real forensics cases</li>
+                <li>Many criminals have been caught because they forgot to remove metadata!</li>
+            </ul>
+        </div>
+        
+        <div class="tools-list">
+            <h4>🛠️ Tools you can use:</h4>
+            <p><strong>Online Tools (Easy):</strong></p>
+            <p>• Search "online EXIF viewer" and upload your image</p>
+            <p>• Try: exifdata.com, metapicz.com, or exif.app</p>
+            
+            <p><strong>Command Line (Advanced):</strong></p>
+            <code class="command">exiftool suspicious_image.jpg</code>
+            <p><em>^ This shows ALL metadata in the image</em></p>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ Real-world tip:</strong> Always remove metadata from photos before sharing online! Your phone might include your exact location, device info, and more personal data than you think.
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-button">← Return to Base</a>
+</div>
+
+<script>
+// Create floating particles effect
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Add click tracking for educational purposes
+let downloadCount = 0;
+
+document.querySelectorAll('.download-button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        downloadCount++;
+        
+        // Show encouraging message
+        const message = document.createElement('div');
+        message.style.position = 'fixed';
+        message.style.top = '20px';
+        message.style.right = '20px';
+        message.style.background = 'rgba(0, 255, 0, 0.9)';
+        message.style.color = '#000';
+        message.style.padding = '15px';
+        message.style.borderRadius = '8px';
+        message.style.fontFamily = 'Orbitron';
+        message.style.fontWeight = 'bold';
+        message.style.zIndex = '10000';
+        message.style.animation = 'fadeIn 0.5s';
+        
+        if (downloadCount === 1) {
+            message.textContent = '📥 Image downloaded! Now analyze its metadata!';
+        } else {
+            message.textContent = '🔍 Great! Remember to check ALL metadata fields!';
+        }
+        
+        document.body.appendChild(message);
+        
+        setTimeout(() => {
+            message.remove();
+        }, 4000);
+    });
+});
+
+// Add helpful console message
+console.log('🕵️ METADATA CHALLENGE ACTIVATED');
+console.log('📋 Mission Brief: Extract hidden flag from image metadata');
+console.log('🛠️ Tools needed: EXIF viewer (online or exiftool)');
+console.log('💡 Tip: Look for unusual fields in the metadata!');
+console.log('🎯 The flag format is: CyberBase{...}');
+
+// Image interaction effects
+document.querySelector('.challenge-img').addEventListener('click', function() {
+    // Add click effect
+    this.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        this.style.transform = 'scale(1)';
+    }, 150);
+    
+    // Show analysis hint
+    const hint = document.createElement('div');
+    hint.style.position = 'fixed';
+    hint.style.bottom = '20px';
+    hint.style.left = '50%';
+    hint.style.transform = 'translateX(-50%)';
+    hint.style.background = 'rgba(0, 0, 0, 0.9)';
+    hint.style.color = '#00ff00';
+    hint.style.padding = '10px 20px';
+    hint.style.borderRadius = '5px';
+    hint.style.fontFamily = 'Share Tech Mono';
+    hint.style.fontSize = '14px';
+    hint.style.border = '1px solid #00ff00';
+    hint.style.zIndex = '1000';
+    
+    hint.textContent = '💡 Right-click and "Save image as..." then use an EXIF tool!';
+    
+    document.body.appendChild(hint);
+    
+    setTimeout(() => {
+        hint.remove();
+    }, 5000);
+});
+
+// Add fade in animation style
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+});
+</script>
+</body>
+</html>

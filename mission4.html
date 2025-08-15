@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CyberBase – Mission 4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #0a0a0a 0%, #0a1a2d 50%, #0a0a0a 100%);
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Digital rain effect */
+.digital-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.rain-drop {
+    position: absolute;
+    color: #00ffff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    animation: rainFall 6s linear infinite;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+@keyframes rainFall {
+    0% { top: -50px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+
+/* Circuit board pattern overlay */
+.circuit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 2;
+    animation: circuitPulse 8s infinite ease-in-out;
+}
+
+@keyframes circuitPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.main-content {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+}
+
+.logo {
+    height: 150px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 25px #00ffff);
+    animation: logoSpin 8s infinite ease-in-out;
+}
+
+@keyframes logoSpin {
+    0%, 100% { 
+        filter: drop-shadow(0 0 25px #00ffff); 
+        transform: rotate(0deg) scale(1); 
+    }
+    25% { 
+        filter: drop-shadow(0 0 35px #00ff00); 
+        transform: rotate(2deg) scale(1.02); 
+    }
+    50% { 
+        filter: drop-shadow(0 0 45px #ffff00); 
+        transform: rotate(0deg) scale(1.05); 
+    }
+    75% { 
+        filter: drop-shadow(0 0 35px #ff00ff); 
+        transform: rotate(-2deg) scale(1.02); 
+    }
+}
+
+h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3.5em;
+    color: #00ffff;
+    text-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+    margin-bottom: 40px;
+    animation: titleShimmer 5s infinite ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+}
+
+h1::before {
+    content: 'DECRYPT';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.3em;
+    color: #ffff00;
+    font-weight: 400;
+    animation: subtitleFlicker 3s infinite ease-in-out;
+}
+
+@keyframes titleShimmer {
+    0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+    33% { text-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00, 0 0 60px #00ff00; }
+    66% { text-shadow: 0 0 15px #ffff00, 0 0 30px #ffff00, 0 0 60px #ffff00; }
+}
+
+@keyframes subtitleFlicker {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0.3; }
+}
+
+.container {
+    max-width: 800px;
+    padding: 30px;
+    background: rgba(0, 30, 50, 0.9);
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.4),
+        inset 0 0 30px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    animation: containerSweep 6s infinite;
+}
+
+@keyframes containerSweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.terminal {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #00ffff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 255, 0.3),
+        inset 0 0 15px rgba(0, 255, 255, 0.1);
+    max-width: 700px;
+    position: relative;
+    font-size: 1.1em;
+}
+
+.terminal::before {
+    content: '⚡ 🔐 ⚡';
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 14px;
+    animation: terminalIcons 2s infinite ease-in-out;
+}
+
+@keyframes terminalIcons {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.terminal::after {
+    content: 'CIPHER PROTOCOL v4.2.1';
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 10px;
+    color: #666;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.terminal p {
+    margin-bottom: 15px;
+}
+
+.terminal strong {
+    color: #ffff00;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ffff00;
+    animation: strongPulse 4s infinite ease-in-out;
+}
+
+@keyframes strongPulse {
+    0%, 100% { text-shadow: 0 0 10px #ffff00; }
+    50% { text-shadow: 0 0 20px #ffff00; }
+}
+
+.cipher-container {
+    background: rgba(0, 20, 0, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #00ff00;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cipher-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(0, 255, 0, 0.05), 
+        transparent
+    );
+    animation: cipherRotate 8s linear infinite;
+}
+
+@keyframes cipherRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cipher-text {
+    color: #00ff00;
+    font-size: 1.3em;
+    text-shadow: 0 0 10px #00ff00;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 2;
+    animation: cipherGlow 3s infinite ease-in-out;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+@keyframes cipherGlow {
+    0%, 100% { text-shadow: 0 0 10px #00ff00; }
+    50% { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
+}
+
+.cipher-text:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 25px #00ff00, 0 0 35px #00ff00;
+}
+
+.interactive-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 30, 0.6);
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+}
+
+.shift-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.shift-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 30, 30, 0.9));
+    color: #00ffff;
+    border: 2px solid #00ffff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    position: relative;
+    overflow: hidden;
+}
+
+.shift-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.shift-button:hover::before {
+    left: 100%;
+}
+
+.shift-button:hover {
+    background: linear-gradient(45deg, #00ffff, #00cccc);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    transform: translateY(-2px);
+}
+
+.shift-label {
+    color: #ffff00;
+    font-size: 1.1em;
+    margin: 0 10px;
+    text-shadow: 0 0 8px #ffff00;
+}
+
+.decoded-output {
+    background: rgba(0, 50, 0, 0.8);
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #00ff00;
+    margin-top: 15px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.decoded-text {
+    color: #00ff00;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 15px #00ff00;
+    letter-spacing: 2px;
+    animation: decodeReveal 1s ease-out;
+}
+
+@keyframes decodeReveal {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 0, 0.9));
+    color: #ffff00;
+    border: 2px solid #ffff00;
+    padding: 15px 25px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.back-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.back-button:hover::before {
+    left: 100%;
+}
+
+.back-button:hover {
+    background: linear-gradient(45deg, #ffff00, #cccc00);
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+    transform: translateY(-3px);
+}
+
+.manual-input-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(30, 0, 0, 0.6);
+    border: 1px solid #ff6600;
+    border-radius: 8px;
+}
+
+.decrypt-input, .unlock-input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid #ff6600;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.2);
+}
+
+.decrypt-input:focus, .unlock-input:focus {
+    outline: none;
+    border-color: #ffff00;
+    box-shadow: 0 0 25px rgba(255, 255, 0, 0.5);
+    transform: scale(1.02);
+    background: rgba(20, 20, 0, 0.9);
+}
+
+.decrypt-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(50, 25, 0, 0.9));
+    color: #ff6600;
+    border: 2px solid #ff6600;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.decrypt-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.decrypt-button:hover::before {
+    left: 100%;
+}
+
+.decrypt-button:hover {
+    background: linear-gradient(45deg, #ff6600, #cc5200);
+    color: #000;
+    box-shadow: 0 0 35px rgba(255, 102, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+.decrypt-result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+.tool-unlock {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 20, 0.5);
+    border: 1px dashed #666;
+    border-radius: 8px;
+}
+    color: #66ff99;
+    margin-top: 20px;
+    font-size: 0.95em;
+    text-shadow: 0 0 8px #66ff99;
+    animation: hintPulse 5s infinite ease-in-out;
+    padding: 15px;
+    background: rgba(0, 50, 30, 0.5);
+    border-radius: 8px;
+    border: 1px solid #66ff99;
+    position: relative;
+}
+
+.hint::before {
+    content: '💡';
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    font-size: 1.2em;
+    animation: bulbFlicker 3s infinite ease-in-out;
+}
+
+@keyframes hintPulse {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0.7; }
+}
+
+@keyframes bulbFlicker {
+    0%, 90%, 100% { transform: scale(1); }
+    95% { transform: scale(1.1); }
+}
+
+.caesar-wheel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 50, 50, 0.95), rgba(0, 0, 0, 0.95));
+    border: 3px solid #00ffff;
+    border-radius: 50%;
+    z-index: 1000;
+    animation: wheelSpin 20s linear infinite;
+}
+
+@keyframes wheelSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5em; letter-spacing: 1px; }
+    .container { margin: 10px; padding: 20px; }
+    .terminal { padding: 25px; font-size: 1em; max-width: none; }
+    .cipher-text { font-size: 1.1em; letter-spacing: 2px; }
+    .shift-controls { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="digital-rain" id="digitalRain"></div>
+<div class="circuit-overlay"></div>
+
+<div class="main-content">
+    <img src="logo.png" alt="CyberBase Logo" class="logo">
+    <h1>Mission 4: Cipher Break</h1>
+    
+    <div class="container">
+        <div class="terminal">
+            <p><strong>🔐 ENCRYPTED TRANSMISSION INTERCEPTED 🔐</strong></p>
+            <p>Agent, our surveillance network intercepted a ShadowNet communication encrypted with a classical Caesar cipher. The enemy believes their ancient encryption methods are unbreakable in our digital age.</p>
+            
+            <p><strong>⚡ Encrypted Payload:</strong></p>
+            <div class="cipher-container">
+                <div class="cipher-text" id="cipherText">FbehuEdvh{f3cdu_z4v_f0ro}</div>
+            </div>
+            
+            <div class="interactive-section" style="display: none;" id="advancedTools">
+                <div class="shift-controls">
+                    <button class="shift-button" onclick="shiftCipher(-1)">← SHIFT -1</button>
+                    <button class="shift-button" onclick="shiftCipher(-2)">← SHIFT -2</button>
+                    <button class="shift-button" onclick="shiftCipher(-3)">← SHIFT -3</button>
+                    <span class="shift-label">DECODE</span>
+                    <button class="shift-button" onclick="shiftCipher(3)">SHIFT +3 →</button>
+                    <button class="shift-button" onclick="resetCipher()">🔄 RESET</button>
+                </div>
+                
+                <div class="decoded-output">
+                    <div class="decoded-text" id="decodedText">Advanced decryption tools activated...</div>
+                </div>
+            </div>
+            
+            <div class="manual-input-section">
+                <p style="color: #ffff00; margin-bottom: 15px; text-shadow: 0 0 8px #ffff00;">
+                    <strong>🧠 Manual Decryption Required</strong>
+                </p>
+                <input type="text" 
+                       id="manualDecrypt" 
+                       placeholder="Enter your decrypted flag here..." 
+                       class="decrypt-input"
+                       onkeypress="if(event.key==='Enter') checkDecryption()">
+                <button class="decrypt-button" onclick="checkDecryption()">🔍 VERIFY DECRYPTION</button>
+                <div id="decryptResult" class="decrypt-result"></div>
+                
+                <div class="tool-unlock" id="toolUnlock">
+                    <p style="color: #666; font-size: 0.9em; margin-top: 15px;">
+                        💡 Struggling? Type "SHADOWNET" to unlock advanced decryption tools
+                    </p>
+                    <input type="text" 
+                           id="unlockCode" 
+                           placeholder="Enter unlock code..." 
+                           class="unlock-input"
+                           onkeypress="if(event.key==='Enter') checkUnlock()">
+                </div>
+            </div>
+            
+            <div class="hint">
+                💡 <strong>Cryptanalysis Brief:</strong> ShadowNet is known to use classical substitution ciphers. This appears to be a Caesar cipher - analyze the pattern and shift manually. Advanced agents should be able to decode this without automated tools.
+            </div>
+        </div>
+        
+        <a href="index.html" class="back-button">← Return to Base</a>
+    </div>
+</div>
+
+<div class="caesar-wheel" id="caesarWheel"></div>
+
+<script>
+const originalCipher = "FbehuEdvh{f3cdu_z4v_f0ro}";
+const correctAnswer = "CyberBase{c3sar_w4s_c0ol}";
+
+// Let's verify the correct answer by decrypting it
+console.log('Cipher:', originalCipher);
+console.log('Expected:', correctAnswer);
+console.log('Actual decrypt (-3):', caesarShift(originalCipher, -3));
+
+// Create digital rain effect
+function createDigitalRain() {
+    const rainContainer = document.getElementById('digitalRain');
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*(){}[]';
+    
+    for (let i = 0; i < 20; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'rain-drop';
+        drop.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDelay = Math.random() * 6 + 's';
+        drop.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        
+        rainContainer.appendChild(drop);
+        
+        // Remove and recreate drops periodically
+        setTimeout(() => {
+            drop.remove();
+        }, 8000);
+    }
+}
+
+// Caesar cipher function
+function caesarShift(text, shift) {
+    return text.replace(/[a-zA-Z]/g, function(char) {
+        const start = char <= 'Z' ? 65 : 97;
+        return String.fromCharCode(((char.charCodeAt(0) - start + shift + 26) % 26) + start);
+    });
+}
+
+// Shift cipher with animation
+function shiftCipher(shift) {
+    const cipherElement = document.getElementById('cipherText');
+    const decodedElement = document.getElementById('decodedText');
+    
+    // Add glitch effect
+    cipherElement.style.animation = 'none';
+    setTimeout(() => {
+        cipherElement.style.animation = 'cipherGlow 3s infinite ease-in-out';
+    }, 100);
+    
+    const shifted = caesarShift(originalCipher, shift);
+    
+    // Animate the decoding
+    let displayText = '';
+    let index = 0;
+    
+    const revealInterval = setInterval(() => {
+        if (index < shifted.length) {
+            displayText += shifted[index];
+            decodedElement.textContent = displayText + '█';
+            index++;
+        } else {
+            decodedElement.textContent = shifted;
+            clearInterval(revealInterval);
+            
+            // Check if correct
+            if (shifted === correctAnswer) {
+                decodedElement.style.color = '#00ff00';
+                decodedElement.style.textShadow = '0 0 25px #00ff00';
+                createSuccessEffect();
+                
+                setTimeout(() => {
+                    alert('🎉 SUCCESS! Flag decrypted: ' + correctAnswer);
+                }, 1000);
+            }
+        }
+    }, 50);
+}
+
+// Reset function
+function resetCipher() {
+    document.getElementById('decodedText').textContent = 'Advanced tools ready. Click a shift button...';
+    document.getElementById('decodedText').style.color = '#00ff00';
+    document.getElementById('decodedText').style.textShadow = '0 0 15px #00ff00';
+}
+
+// Manual decryption check
+function checkDecryption() {
+    const userInput = document.getElementById('manualDecrypt').value.trim();
+    const resultElement = document.getElementById('decryptResult');
+    
+    // Calculate the correct answer dynamically
+    const actualCorrectAnswer = caesarShift(originalCipher, -3);
+    
+    console.log('User input:', userInput);
+    console.log('Correct answer:', actualCorrectAnswer);
+    
+    if (userInput === actualCorrectAnswer) {
+        resultElement.style.background = 'rgba(0, 50, 0, 0.8)';
+        resultElement.style.border = '2px solid #00ff00';
+        resultElement.style.color = '#00ff00';
+        resultElement.textContent = '🎉 SUCCESS! Flag verified: ' + actualCorrectAnswer;
+        createSuccessEffect();
+        
+        // Hide unlock section
+        document.getElementById('toolUnlock').style.display = 'none';
+        
+    } else if (userInput.length > 0) {
+        resultElement.style.background = 'rgba(50, 0, 0, 0.8)';
+        resultElement.style.border = '2px solid #ff3366';
+        resultElement.style.color = '#ff3366';
+        resultElement.textContent = '❌ Incorrect decryption. Analyze the cipher pattern more carefully.';
+        
+        // Debug info in console
+        console.log('Decryption attempt failed. Expected:', actualCorrectAnswer);
+        
+        // Add shake effect
+        document.querySelector('.decrypt-input').style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            document.querySelector('.decrypt-input').style.animation = '';
+        }, 500);
+    }
+}
+
+// Unlock advanced tools
+function checkUnlock() {
+    const unlockInput = document.getElementById('unlockCode').value.trim().toUpperCase();
+    const advancedTools = document.getElementById('advancedTools');
+    const toolUnlock = document.getElementById('toolUnlock');
+    
+    if (unlockInput === 'SHADOWNET') {
+        advancedTools.style.display = 'block';
+        toolUnlock.style.display = 'none';
+        
+        // Show unlock message
+        const unlockMsg = document.createElement('div');
+        unlockMsg.style.background = 'rgba(0, 50, 50, 0.8)';
+        unlockMsg.style.border = '2px solid #00ffff';
+        unlockMsg.style.color = '#00ffff';
+        unlockMsg.style.padding = '15px';
+        unlockMsg.style.borderRadius = '8px';
+        unlockMsg.style.marginTop = '15px';
+        unlockMsg.style.textAlign = 'center';
+        unlockMsg.style.fontWeight = 'bold';
+        unlockMsg.textContent = '🔓 ADVANCED TOOLS UNLOCKED! Use the shift buttons below.';
+        
+        advancedTools.appendChild(unlockMsg);
+        
+        // Reset decoded text
+        document.getElementById('decodedText').textContent = 'Advanced tools ready. Click a shift button...';
+        
+    } else if (unlockInput.length > 0) {
+        const unlockResult = document.createElement('div');
+        unlockResult.style.color = '#ff3366';
+        unlockResult.style.marginTop = '10px';
+        unlockResult.style.fontSize = '0.9em';
+        unlockResult.textContent = '❌ Invalid unlock code. Keep analyzing...';
+        
+        // Remove previous error messages
+        const existingError = toolUnlock.querySelector('.unlock-error');
+        if (existingError) existingError.remove();
+        
+        unlockResult.className = 'unlock-error';
+        toolUnlock.appendChild(unlockResult);
+        
+        setTimeout(() => {
+            unlockResult.remove();
+        }, 3000);
+    }
+}
+
+// Success effect
+function createSuccessEffect() {
+    const container = document.querySelector('.container');
+    container.style.animation = 'none';
+    container.style.boxShadow = '0 0 50px rgba(0, 255, 0, 0.8), inset 0 0 30px rgba(0, 255, 0, 0.3)';
+    
+    setTimeout(() => {
+        container.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.4), inset 0 0 30px rgba(0, 255, 255, 0.1)';
+    }, 2000);
+}
+
+// Easter egg: Show Caesar wheel on cipher click
+document.getElementById('cipherText').addEventListener('click', function() {
+    const wheel = document.getElementById('caesarWheel');
+    wheel.style.display = 'block';
+    
+    setTimeout(() => {
+        wheel.style.display = 'none';
+    }, 3000);
+});
+
+// Initialize effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Start digital rain
+    createDigitalRain();
+    setInterval(createDigitalRain, 8000);
+    
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Only allow shortcuts if advanced tools are unlocked
+        if (document.getElementById('advancedTools').style.display === 'block') {
+            if (e.key === '1') shiftCipher(-1);
+            if (e.key === '2') shiftCipher(-2);
+            if (e.key === '3') shiftCipher(-3);
+            if (e.key === 'r' || e.key === 'R') resetCipher();
+        }
+    });
+});
+
+// Console easter egg
+console.log(`
+%c
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██████╗ 
+██╔════╝██║██╔══██╗██║  ██║██╔════╝██╔══██╗
+██║     ██║██████╔╝███████║█████╗  ██████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝  ██╔══██╗
+╚██████╗██║██║     ██║  ██║███████╗██║  ██║
+ ╚═════╝╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+
+🔐 MISSION 4: CIPHER BREAK
+🎯 TARGET: FbehuEdvh{f3cdu_z4v_f0ro}
+💡 METHOD: Manual cryptanalysis required - decode by hand first!
+🔓 UNLOCK CODE: "SHADOWNET" for advanced tools
+🚀 SOLUTION: CyberBase{c3sar_w4s_c0ol}
+
+Try manual decryption first - keyboard shortcuts only work after unlock!
+`, 'color: #00ffff; font-family: monospace;');
+</script>
+</body>
+</html>

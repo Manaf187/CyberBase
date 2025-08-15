@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase – Mission 1: Operation Shadownet</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Share Tech Mono', monospace;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #00ff00;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* Animated background particles */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.3;
+    }
+
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+        50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+    }
+
+    /* Glitch effect for title */
+    @keyframes glitch {
+        0% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff, 0.025em 0.05em 0 #ffff00; }
+        15% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff, 0.025em 0.05em 0 #ffff00; }
+        16% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff, -0.05em -0.05em 0 #ffff00; }
+        49% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff, -0.05em -0.05em 0 #ffff00; }
+        50% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ffff00; }
+        99% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ffff00; }
+        100% { text-shadow: -0.025em 0 0 #00ffff, -0.025em -0.025em 0 #ff00ff, -0.025em -0.05em 0 #ffff00; }
+    }
+
+    .header {
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, #00ff00, #00ccaa);
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        box-shadow: 0 0 30px #00ff00;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 30px #00ff00; }
+        50% { transform: scale(1.05); box-shadow: 0 0 50px #00ff00; }
+    }
+
+    h1 {
+        font-family: 'Orbitron', monospace;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #00ff00;
+        text-shadow: 0 0 20px #00ff00;
+        margin-bottom: 0.5rem;
+        animation: glitch 2s infinite;
+    }
+
+    .mission-subtitle {
+        font-size: 1.2rem;
+        color: #00ccaa;
+        margin-bottom: 2rem;
+        opacity: 0.8;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .mission-brief {
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,255,0,0.1) 100%);
+        border: 2px solid #00ff00;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0,255,0,0.3);
+    }
+
+    .mission-brief::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #00ff00, #00ccaa, #0099ff, #00ff00);
+        border-radius: 15px;
+        z-index: -1;
+        animation: borderGlow 3s linear infinite;
+    }
+
+    @keyframes borderGlow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .status-line {
+        color: #ff6b6b;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+
+    .message-container {
+        background: rgba(0,0,0,0.6);
+        border: 1px solid #00ff00;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        position: relative;
+    }
+
+    .message-label {
+        color: #ffff00;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .encrypted-message {
+        background: #000;
+        border: 1px dashed #00ff00;
+        padding: 1rem;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        word-break: break-all;
+        color: #ff6b6b;
+        text-shadow: 0 0 10px #ff6b6b;
+    }
+
+    .decoder-section {
+        background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,100,200,0.1) 100%);
+        border: 2px solid #0099ff;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 0 25px rgba(0,153,255,0.3);
+    }
+
+    .decoder-title {
+        color: #0099ff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #00ccaa;
+        font-weight: bold;
+    }
+
+    .decode-input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(0,0,0,0.8);
+        border: 2px solid #0099ff;
+        border-radius: 8px;
+        color: #00ff00;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .decode-input:focus {
+        outline: none;
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0,255,0,0.5);
+    }
+
+    .decode-btn {
+        background: linear-gradient(45deg, #0099ff, #00ccaa);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: #fff;
+        font-family: 'Orbitron', monospace;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,153,255,0.3);
+        width: 100%;
+    }
+
+    .decode-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,153,255,0.5);
+    }
+
+    .decode-btn:active {
+        transform: translateY(0);
+    }
+
+    .result-area {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(0,0,0,0.6);
+        border: 1px solid #00ff00;
+        border-radius: 8px;
+        min-height: 60px;
+        display: none;
+    }
+
+    .result-area.show {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hint-section {
+        background: rgba(255,193,7,0.1);
+        border: 1px solid #ffC107;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .hint-title {
+        color: #ffC107;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .hint-content {
+        color: #fff8dc;
+        line-height: 1.6;
+    }
+
+    .success-message {
+        background: linear-gradient(45deg, rgba(0,255,0,0.2), rgba(0,200,0,0.1));
+        border: 2px solid #00ff00;
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+        color: #00ff00;
+        font-weight: bold;
+        font-size: 1.2rem;
+        display: none;
+        animation: celebrate 0.6s ease;
+    }
+
+    @keyframes celebrate {
+        0% { transform: scale(0.8) rotate(-5deg); }
+        50% { transform: scale(1.05) rotate(2deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(45deg, #000, #333);
+        color: #00ff00;
+        border: 2px solid #00ff00;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-family: 'Orbitron', monospace;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        margin: 2rem auto;
+        display: block;
+        width: fit-content;
+    }
+
+    .back-button:hover {
+        background: #00ff00;
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,255,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 2rem; }
+        .container { padding: 0 1rem; }
+        .mission-brief, .decoder-section { padding: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="header">
+      <img src="logo.png" alt="CyberBase Logo" class="logo">
+        <h1>CyberBase</h1>
+        <div class="mission-subtitle">Operation Shadownet - Mission 1</div>
+    </div>
+
+    <div class="container">
+        <div class="mission-brief">
+            <div class="status-line">🔴 CLASSIFIED TRANSMISSION INTERCEPTED</div>
+            <h2 style="color: #00ccaa; margin-bottom: 1rem;">Mission Briefing</h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                Agent, our intelligence division has intercepted a coded transmission from the notorious hacker collective known as <strong style="color: #ff6b6b;">ShadowNet</strong>. 
+            </p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                The message appears to contain sensitive information that could compromise national security. Your mission: <strong style="color: #ffff00;">decode the encrypted message and extract the flag</strong>.
+            </p>
+            <p style="color: #00ccaa;">
+                Intelligence suggests they're using a classic Caesar cipher variant. Time is of the essence, Agent.
+            </p>
+            
+            <div class="message-container">
+                <div class="message-label">📡 INTERCEPTED MESSAGE:</div>
+                <div class="encrypted-message" id="encryptedMsg">
+                    PloreOnfr{J3YPo3zR_g0_Gu3_pU4YYrAtr}
+                </div>
+            </div>
+        </div>
+
+        <div class="decoder-section">
+            <div class="decoder-title">🔓 DECRYPTION TERMINAL</div>
+            <div class="input-group">
+                <label for="messageInput">Enter the encrypted message:</label>
+                <input type="text" id="messageInput" class="decode-input" 
+                       placeholder="Paste the encrypted message here..." 
+                       >
+            </div>
+            <button class="decode-btn" onclick="decodeMessage()">🔍 INITIATE DECRYPTION</button>
+            <div class="result-area" id="resultArea">
+                <strong>Decoded Message:</strong><br>
+                <span id="decodedResult"></span>
+            </div>
+        </div>
+
+        <div class="hint-section">
+            <div class="hint-title">
+                💡 Intelligence Report
+            </div>
+            <div class="hint-content">
+                Our cryptanalysts believe ShadowNet is using <strong>ROT13 encryption</strong> - a substitution cipher that replaces each letter with the letter 13 positions ahead in the alphabet. For example: A becomes N, B becomes O, and so on. Letters N-Z wrap around to the beginning of the alphabet.
+                <br><br>
+                <strong>Fun Fact:</strong> ROT13 is its own inverse - applying ROT13 twice returns the original text!
+            </div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            🎉 MISSION ACCOMPLISHED! 🎉<br>
+            You've successfully decoded ShadowNet's message and found the flag!<br>
+            <strong>Welcome to the world of cybersecurity, Agent!</strong>
+        </div>
+
+        <a href="index.html" class="back-button">
+            ⬅ Return to Base
+        </a>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ROT13 decoder function
+        function rot13(str) {
+            return str.replace(/[A-Za-z]/g, function(char) {
+                const start = char <= 'Z' ? 65 : 97;
+                return String.fromCharCode(((char.charCodeAt(0) - start + 13) % 26) + start);
+            });
+        }
+
+        // Decode message function
+        function decodeMessage() {
+            const input = document.getElementById('messageInput').value;
+            const resultArea = document.getElementById('resultArea');
+            const decodedResult = document.getElementById('decodedResult');
+            const successMessage = document.getElementById('successMessage');
+            
+            if (!input.trim()) {
+                alert('Please enter a message to decode!');
+                return;
+            }
+            
+            const decoded = rot13(input);
+            decodedResult.textContent = decoded;
+            resultArea.classList.add('show');
+            
+            // Check if it's the correct flag
+            if (decoded.includes('CyberBase{W3LC0mE_t0_Th3_cH4LLenGe}')) {
+                setTimeout(() => {
+                    successMessage.style.display = 'block';
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            }
+        }
+
+        // Add typing effect to encrypted message
+        function typeWriter(element, text, delay = 50) {
+            let i = 0;
+            element.textContent = '';
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, delay);
+        }
+
+        // Initialize particles and effects on page load
+        window.addEventListener('load', () => {
+            createParticles();
+            const encryptedMsg = document.getElementById('encryptedMsg');
+            const originalText = encryptedMsg.textContent;
+            typeWriter(encryptedMsg, originalText, 80);
+        });
+
+        // Allow Enter key to decode
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                decodeMessage();
+            }
+        });
+    </script>
+</body>
+</html>

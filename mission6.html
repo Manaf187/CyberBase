@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase – Mission 6</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0826 50%, #0a0a0a 100%);
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated background particles */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+/* Glitch effect overlay */
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 98px,
+        rgba(0, 255, 0, 0.03) 100px
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+.main-content {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+}
+
+.logo {
+    height: 150px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 20px #00ff00);
+    animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 20px #00ff00); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 40px #00ff00); transform: scale(1.05); }
+}
+
+h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3.5em;
+    color: #00ff00;
+    text-shadow: 
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 40px #00ff00;
+    margin-bottom: 40px;
+    animation: titleGlow 4s infinite ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00; }
+    50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00; }
+}
+
+.container {
+    max-width: 800px;
+    padding: 30px;
+    background: rgba(0, 20, 0, 0.8);
+    border: 2px solid #00ff00;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.3),
+        inset 0 0 30px rgba(0, 255, 0, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.1), transparent);
+    animation: scanline 3s infinite;
+}
+
+@keyframes scanline {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.terminal {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00ff00;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 0, 0.4),
+        inset 0 0 15px rgba(0, 255, 0, 0.1);
+    overflow-x: auto;
+    position: relative;
+    font-size: 1.1em;
+}
+
+.terminal::before {
+    content: '● ● ●';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #ff0000;
+    font-size: 12px;
+}
+
+.terminal p {
+    margin-bottom: 15px;
+}
+
+.terminal strong {
+    color: #00ffff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+#codeBox {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid #333;
+    margin: 20px 0;
+    position: relative;
+}
+
+.code-line {
+    white-space: pre;
+    font-size: 1em;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+    position: relative;
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: #00ff00;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    transform: scale(1.02);
+}
+
+.button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 50, 0, 0.9));
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+.button:hover {
+    background: linear-gradient(45deg, #00ff00, #00cc00);
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+.back-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(50, 0, 0, 0.9));
+    color: #ff0066;
+    border: 2px solid #ff0066;
+    padding: 15px 25px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.back-button:hover {
+    background: linear-gradient(45deg, #ff0066, #cc0052);
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 0, 102, 0.7);
+    transform: translateY(-2px);
+}
+
+.hint {
+    color: #66ffcc;
+    margin-top: 15px;
+    font-size: 0.95em;
+    text-shadow: 0 0 5px #66ffcc;
+}
+
+.message {
+    color: #ff3366;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-shadow: 0 0 10px #ff3366;
+    animation: messageGlow 2s infinite ease-in-out;
+}
+
+@keyframes messageGlow {
+    0%, 100% { text-shadow: 0 0 10px #ff3366; }
+    50% { text-shadow: 0 0 20px #ff3366; }
+}
+
+.flag {
+    color: #00ff00;
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 1.3em;
+    text-shadow: 0 0 15px #00ff00;
+    animation: flagSuccess 1s infinite ease-in-out;
+}
+
+@keyframes flagSuccess {
+    0%, 100% { transform: scale(1); text-shadow: 0 0 15px #00ff00; }
+    50% { transform: scale(1.05); text-shadow: 0 0 25px #00ff00; }
+}
+
+.success-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.success-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: successFloat 2s ease-out forwards;
+}
+
+@keyframes successFloat {
+    0% { transform: translateY(100vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-100px) scale(0); opacity: 0; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5em; letter-spacing: 1px; }
+    .container { margin: 10px; padding: 20px; }
+    .terminal { padding: 20px; font-size: 1em; }
+}
+</style>
+</head>
+<body>
+<div class="particles"></div>
+<div class="glitch-overlay"></div>
+
+<div class="main-content">
+    <img src="logo.png" alt="CyberBase Logo" class="logo">
+    <h1>Mission 6: Code Breach</h1>
+    
+    <div class="container">
+        <div class="terminal">
+            <p><strong>⚡ CLASSIFIED TRANSMISSION ⚡</strong></p>
+            <p>Agent, ShadowNet has intercepted and scrambled our secure communication. The enemy has randomized the flag characters in their encryption array. Your mission: decode the sequence and reconstruct the original message.</p>
+            
+            <div id="codeBox" class="terminal">
+                <pre class="code-line" id="codeText"></pre><span class="typing-cursor" id="cursor"></span>
+            </div>
+            
+            <input type="text" id="answer" placeholder="Enter decrypted flag: CyberBase{...}" class="input-field">
+            <button class="button" onclick="checkAnswer()">🚀 DECRYPT & SUBMIT</button>
+            
+            <p class="message" id="message"></p>
+            <p class="flag" id="flag"></p>
+        </div>
+        
+        <a href="index.html" class="back-button">← Return to Base</a>
+    </div>
+</div>
+
+<script>
+// Create floating particles
+function createParticles() {
+    const particlesContainer = document.querySelector('.particles');
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Enhanced typing animation
+const codeText = `chars = ['{','p','y','t','h','0','n','_','f','u','n','!','C','y','b','e','r','B','a','s','e','}']
+flag = ''.join(chars)
+print(flag)`;
+
+let i = 0;
+const codeElement = document.getElementById('codeText');
+const cursor = document.getElementById('cursor');
+
+function typeCode() {
+    if (i < codeText.length) {
+        if (codeText.charAt(i) === '\n') {
+            codeElement.textContent += '\n';
+        } else {
+            codeElement.textContent += codeText.charAt(i);
+        }
+        i++;
+        setTimeout(typeCode, 50 + Math.random() * 50); // Variable typing speed
+    } else {
+        cursor.style.display = 'none';
+    }
+}
+
+// Success animation
+function createSuccessAnimation() {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-animation';
+    document.body.appendChild(successDiv);
+    
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'success-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = '100%';
+            successDiv.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 2000);
+        }, i * 100);
+    }
+    
+    setTimeout(() => {
+        successDiv.remove();
+    }, 5000);
+}
+
+// Enhanced answer checking with sound effects
+function checkAnswer() {
+    const userAnswer = document.getElementById('answer').value.trim();
+    const correctFlag = "CyberBase{pyth0n_fun!}";
+    const messageElement = document.getElementById('message');
+    const flagElement = document.getElementById('flag');
+    
+    if (userAnswer === correctFlag) {
+        messageElement.textContent = "🎉 ACCESS GRANTED! Mission Accomplished!";
+        messageElement.style.color = "#00ff00";
+        flagElement.textContent = correctFlag;
+        
+        // Create success animation
+        createSuccessAnimation();
+        
+        // Screen flash effect
+        document.body.style.animation = "flash 0.5s";
+        setTimeout(() => {
+            document.body.style.animation = "";
+        }, 500);
+        
+    } else {
+        messageElement.textContent = "❌ ACCESS DENIED! Decryption failed. Analyze the code structure...";
+        messageElement.style.color = "#ff3366";
+        flagElement.textContent = "";
+        
+        // Shake animation for wrong answer
+        document.querySelector('.container').style.animation = "shake 0.5s";
+        setTimeout(() => {
+            document.querySelector('.container').style.animation = "";
+        }, 500);
+    }
+}
+
+// Add flash and shake animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes flash {
+        0%, 100% { background: linear-gradient(135deg, #0a0a0a 0%, #1a0826 50%, #0a0a0a 100%); }
+        50% { background: linear-gradient(135deg, #0a4a0a 0%, #1a4826 50%, #0a4a0a 100%); }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    setTimeout(typeCode, 1000); // Start typing after 1 second
+});
+
+// Enter key support
+document.getElementById('answer').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        checkAnswer();
+    }
+});
+
+// Enhanced input effects
+document.getElementById('answer').addEventListener('input', function() {
+    this.style.textShadow = '0 0 10px #00ff00';
+    setTimeout(() => {
+        this.style.textShadow = '';
+    }, 200);
+});
+</script>
+</body>
+</html>

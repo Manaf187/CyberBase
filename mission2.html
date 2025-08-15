@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase – Mission 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2d 50%, #0a0a0a 100%);
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated code rain background */
+.code-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.code-line {
+    position: absolute;
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    animation: codefall 15s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes codefall {
+    0% { 
+        top: -100px; 
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% { 
+        top: 100vh; 
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+/* Grid overlay effect */
+.grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 2;
+    animation: gridPulse 8s infinite ease-in-out;
+}
+
+@keyframes gridPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.main-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+}
+
+.logo {
+    height: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 25px #00ff00);
+    animation: logoSpin 8s linear infinite;
+}
+
+@keyframes logoSpin {
+    0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 25px #00ff00); }
+    25% { transform: rotate(90deg) scale(1.1); filter: drop-shadow(0 0 35px #00ff00); }
+    50% { transform: rotate(180deg) scale(1); filter: drop-shadow(0 0 25px #00ff00); }
+    75% { transform: rotate(270deg) scale(1.1); filter: drop-shadow(0 0 35px #00ff00); }
+    100% { transform: rotate(360deg) scale(1); filter: drop-shadow(0 0 25px #00ff00); }
+}
+
+h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3.2em;
+    color: #00ff00;
+    text-shadow: 
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 40px #00ff00,
+        0 0 80px #00ff00;
+    margin-bottom: 30px;
+    animation: titleGlitch 6s infinite;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+}
+
+h1::before {
+    content: 'SOURCE CODE HUNTER';
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.25em;
+    color: #00ffaa;
+    font-weight: 400;
+    animation: subtitleSlide 4s infinite ease-in-out;
+    letter-spacing: 1px;
+}
+
+@keyframes titleGlitch {
+    0%, 95%, 100% { 
+        text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00;
+        transform: translateX(0);
+    }
+    96% { 
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000;
+        transform: translateX(-2px);
+    }
+    97% { 
+        text-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff, 0 0 40px #0000ff;
+        transform: translateX(2px);
+    }
+    98% { 
+        text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 40px #ffff00;
+        transform: translateX(-1px);
+    }
+}
+
+@keyframes subtitleSlide {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.container {
+    max-width: 700px;
+    padding: 25px;
+    position: relative;
+}
+
+.terminal {
+    background: rgba(0, 0, 0, 0.95);
+    border: 3px solid #00ff00;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: left;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.4),
+        inset 0 0 25px rgba(0, 255, 0, 0.1);
+    max-width: 650px;
+    position: relative;
+    font-size: 1.15em;
+    backdrop-filter: blur(15px);
+    animation: terminalBoot 3s ease-out;
+}
+
+@keyframes terminalBoot {
+    0% { 
+        opacity: 0; 
+        transform: scale(0.8) rotateX(45deg);
+        box-shadow: none;
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(1.02) rotateX(10deg);
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1) rotateX(0deg);
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.4), inset 0 0 25px rgba(0, 255, 0, 0.1);
+    }
+}
+
+.terminal::before {
+    content: '🔴 🟡 🟢';
+    position: absolute;
+    top: 12px;
+    left: 18px;
+    font-size: 14px;
+}
+
+.terminal::after {
+    content: 'HTML INSPECTOR v2.0.1';
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 11px;
+    color: #666;
+    font-family: 'Orbitron', monospace;
+}
+
+.terminal p {
+    margin-bottom: 18px;
+    color: #00ff00;
+}
+
+.terminal p:first-of-type {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #00ffaa;
+    text-shadow: 0 0 10px #00ffaa;
+}
+
+.hint {
+    color: #66ff99;
+    margin-top: 15px;
+    font-size: 1em;
+    text-shadow: 0 0 8px #66ff99;
+    animation: hintPulse 3s infinite ease-in-out;
+    background: rgba(0, 50, 25, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #66ff99;
+}
+
+@keyframes hintPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.02); opacity: 1; }
+}
+
+.hint strong {
+    color: #00ffaa;
+    text-shadow: 0 0 5px #00ffaa;
+}
+
+.instructions {
+    background: rgba(0, 30, 60, 0.7);
+    border: 2px solid #0088ff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    font-size: 1em;
+}
+
+.instructions h3 {
+    color: #00aaff;
+    margin-bottom: 15px;
+    font-family: 'Orbitron', monospace;
+    text-shadow: 0 0 10px #00aaff;
+}
+
+.instructions ol {
+    margin-left: 25px;
+    line-height: 1.8;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+    color: #aaffff;
+}
+
+.kbd {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Share Tech Mono', monospace;
+    color: #ffaa00;
+    text-shadow: 0 0 5px #ffaa00;
+    font-size: 0.9em;
+    margin: 0 2px;
+}
+
+.back-button {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 40, 40, 0.9));
+    color: #00ffaa;
+    border: 3px solid #00ffaa;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.back-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 170, 0.3), transparent);
+    transition: left 0.6s;
+}
+
+.back-button:hover::before {
+    left: 100%;
+}
+
+.back-button:hover {
+    background: linear-gradient(45deg, #00ffaa, #00cc88);
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 255, 170, 0.8);
+    transform: translateY(-3px) scale(1.05);
+}
+
+.warning-box {
+    background: rgba(60, 30, 0, 0.7);
+    border: 2px solid #ff6600;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    color: #ffaa00;
+    animation: warningBlink 4s infinite;
+}
+
+@keyframes warningBlink {
+    0%, 90%, 100% { border-color: #ff6600; }
+    95% { border-color: #ffaa00; }
+}
+
+.warning-box strong {
+    color: #ff6600;
+    text-shadow: 0 0 5px #ff6600;
+}
+
+/* Success animation for when they find it */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    flex-direction: column;
+}
+
+.success-content {
+    text-align: center;
+    color: #00ff00;
+    font-family: 'Orbitron', monospace;
+    animation: successPop 1s ease-out;
+}
+
+@keyframes successPop {
+    0% { transform: scale(0) rotate(180deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5em; letter-spacing: 1px; }
+    .container { padding: 15px; }
+    .terminal { padding: 20px; font-size: 1em; }
+    .back-button { padding: 12px 20px; font-size: 1em; }
+}
+</style>
+</head>
+<body>
+<div class="code-rain" id="codeRain"></div>
+<div class="grid-overlay"></div>
+
+<div class="main-content">
+    <img src="logo.png" alt="CyberBase Logo" class="logo">
+    <h1>Mission 2: Code Detective</h1>
+    
+    <div class="container">
+        <div class="terminal">
+            <p><strong>🕵️ HTML SOURCE INVESTIGATION 🕵️</strong></p>
+            <p>Agent, ShadowNet operatives have hidden a secret message directly in this webpage's source code. Your mission is to locate the hidden flag using HTML inspection techniques.</p>
+            
+            <div class="instructions">
+                <h3>🎯 Investigation Steps:</h3>
+                <ol>
+                    <li><strong>Access the source:</strong> Right-click anywhere on this page</li>
+                    <li><strong>Select "View Page Source"</strong> from the menu</li>
+                    <li><strong>Alternative:</strong> Press <span class="kbd">Ctrl</span> + <span class="kbd">U</span> (Windows/Linux) or <span class="kbd">Cmd</span> + <span class="kbd">Option</span> + <span class="kbd">U</span> (Mac)</li>
+                    <li><strong>Search for clues:</strong> Look for HTML comments (text between &lt;!-- and --&gt;)</li>
+                    <li><strong>Find the flag:</strong> Format will be CyberBase{...}</li>
+                </ol>
+            </div>
+            
+            <div class="hint">
+                💡 <strong>Detective Tip:</strong> HTML comments are invisible on the webpage but visible in the source code. They're often used by developers to leave notes... or by hackers to hide messages! Use <span class="kbd">Ctrl</span> + <span class="kbd">F</span> to search for "CyberBase" in the source.
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Real-World Intel:</strong> In actual cybersecurity work, attackers often hide malicious code or sensitive information in HTML comments, thinking nobody will look there. Always check the source code when investigating suspicious websites!
+            </div>
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-button">← Return to Headquarters</a>
+</div>
+
+<!-- 
+🎉 CONGRATULATIONS, AGENT! 🎉
+
+You've successfully demonstrated basic HTML source code analysis!
+
+This is a fundamental skill in:
+- Web development debugging
+- Digital forensics investigations  
+- Cybersecurity penetration testing
+- Bug bounty hunting
+
+Your mission flag: CyberBase{HTML_Detective_Badge_Earned}
+
+Real-world application: Many data breaches have been discovered by security researchers who examined website source code and found exposed API keys, database credentials, or internal comments that revealed system vulnerabilities.
+
+Keep developing your skills, agent. The digital world needs more defenders like you!
+
+-->
+
+<script>
+// Create animated code rain effect
+function createCodeRain() {
+    const codeRain = document.getElementById('codeRain');
+    const codeSnippets = [
+        '&lt;!-- SECRET MESSAGE --&gt;',
+        '&lt;div class="hidden"&gt;',
+        '&lt;!-- TODO: Remove this --&gt;',
+        '&lt;script&gt; /* CONFIDENTIAL */ &lt;/script&gt;',
+        '&lt;!-- CyberBase{...} --&gt;',
+        '&lt;meta name="secret"&gt;',
+        '&lt;!-- CLASSIFIED INFO --&gt;',
+        '&lt;span style="display:none"&gt;',
+        '&lt;!-- DEBUG: FLAG HERE --&gt;',
+        '&lt;input type="hidden"&gt;'
+    ];
+    
+    for (let i = 0; i < 12; i++) {
+        const codeLine = document.createElement('div');
+        codeLine.className = 'code-line';
+        codeLine.innerHTML = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        codeLine.style.left = Math.random() * 100 + '%';
+        codeLine.style.animationDelay = Math.random() * 15 + 's';
+        codeLine.style.animationDuration = (Math.random() * 5 + 12) + 's';
+        codeRain.appendChild(codeLine);
+    }
+}
+
+// Track right-click events (source viewing attempts)
+let rightClickCount = 0;
+let viewSourceAttempts = 0;
+
+document.addEventListener('contextmenu', function(e) {
+    rightClickCount++;
+    
+    if (rightClickCount === 1) {
+        // Show encouraging message
+        setTimeout(() => {
+            const hint = document.createElement('div');
+            hint.style.position = 'fixed';
+            hint.style.top = '20px';
+            hint.style.right = '20px';
+            hint.style.background = 'rgba(0, 255, 0, 0.9)';
+            hint.style.color = '#000';
+            hint.style.padding = '10px 15px';
+            hint.style.borderRadius = '5px';
+            hint.style.fontFamily = 'Orbitron';
+            hint.style.fontWeight = 'bold';
+            hint.style.zIndex = '10000';
+            hint.style.fontSize = '14px';
+            hint.textContent = '🕵️ Great! Now select "View Page Source"';
+            
+            document.body.appendChild(hint);
+            
+            setTimeout(() => {
+                hint.remove();
+            }, 4000);
+        }, 500);
+    }
+});
+
+// Detect keyboard shortcuts for viewing source
+document.addEventListener('keydown', function(e) {
+    // Ctrl+U or Cmd+Option+U
+    if ((e.ctrlKey && e.key === 'u') || (e.metaKey && e.altKey && e.key === 'u')) {
+        viewSourceAttempts++;
+        
+        const encouragement = document.createElement('div');
+        encouragement.style.position = 'fixed';
+        encouragement.style.bottom = '20px';
+        encouragement.style.left = '50%';
+        encouragement.style.transform = 'translateX(-50%)';
+        encouragement.style.background = 'rgba(0, 255, 170, 0.9)';
+        encouragement.style.color = '#000';
+        encouragement.style.padding = '12px 20px';
+        encouragement.style.borderRadius = '8px';
+        encouragement.style.fontFamily = 'Orbitron';
+        encouragement.style.fontWeight = 'bold';
+        encouragement.style.zIndex = '10000';
+        encouragement.style.fontSize = '16px';
+        
+        if (viewSourceAttempts === 1) {
+            encouragement.textContent = '🔍 Excellent! Look for HTML comments in the source code!';
+        } else {
+            encouragement.textContent = '💎 Remember: Search for "CyberBase" or look for <!-- comments -->';
+        }
+        
+        document.body.appendChild(encouragement);
+        
+        setTimeout(() => {
+            encouragement.remove();
+        }, 5000);
+    }
+});
+
+// Fun console message for curious students
+console.log('🎯 SOURCE CODE DETECTIVE CHALLENGE');
+console.log('═══════════════════════════════════');
+console.log('📋 Mission: Find the hidden flag in HTML comments');
+console.log('🛠️ Method: View Page Source (Ctrl+U)');
+console.log('🔍 Target: Look for <!-- HTML comments -->');
+console.log('🏆 Flag format: CyberBase{...}');
+console.log('');
+console.log('💡 Pro tip: Use Ctrl+F to search for "CyberBase" in the source!');
+console.log('');
+console.log('🚀 This console won\'t help you this time - you need the HTML source!');
+
+// Initialize effects
+document.addEventListener('DOMContentLoaded', function() {
+    createCodeRain();
+    
+    // Refresh code rain periodically
+    setInterval(() => {
+        if (Math.random() < 0.3) { // 30% chance
+            const codeRain = document.getElementById('codeRain');
+            codeRain.innerHTML = '';
+            createCodeRain();
+        }
+    }, 20000);
+});
+
+// Easter egg: If they try to inspect element instead
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        setTimeout(() => {
+            console.log('🤔 You opened DevTools! That works too, but try "View Page Source" for the full HTML code!');
+            console.log('💡 Hint: You can also right-click → "View Page Source" or press Ctrl+U');
+        }, 1000);
+    }
+});
+</script>
+</body>
+</html>

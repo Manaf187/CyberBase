@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase – Mission 7: Encrypted Communications</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #00ff00;
+    text-shadow: 0 0 20px #00ff00;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px #00ff00; }
+    to { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+}
+
+.mission-status {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.status-indicator {
+    padding: 8px 16px;
+    border: 2px solid #00ff00;
+    border-radius: 20px;
+    background: rgba(0, 255, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+    font-size: 0.9em;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+}
+
+.terminal {
+    background: linear-gradient(145deg, #111, #000);
+    border: 2px solid #00ff00;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff00, #003300, #00ff00);
+    border-radius: 15px;
+    z-index: -1;
+    animation: borderFlow 3s linear infinite;
+}
+
+@keyframes borderFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.mission-brief {
+    background: rgba(0, 255, 0, 0.05);
+    padding: 20px;
+    border-left: 4px solid #00ff00;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+.email-client {
+    background: rgba(0, 255, 0, 0.02);
+    border: 2px solid #00ff00;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    position: relative;
+}
+
+.email-toolbar {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    margin: -25px -25px 20px -25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.email-toolbar-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.close { background: #ff5555; }
+.minimize { background: #ffaa00; }
+.maximize { background: #00ff00; }
+
+.email-title {
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.email-header {
+    background: rgba(0, 255, 0, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #00ff00;
+    margin-bottom: 20px;
+}
+
+.email-field {
+    display: flex;
+    margin: 8px 0;
+    align-items: flex-start;
+}
+
+.email-label {
+    font-weight: bold;
+    min-width: 80px;
+    color: #00ff99;
+}
+
+.email-value {
+    flex: 1;
+    word-wrap: break-word;
+}
+
+.email-subject .email-value {
+    color: #ffff00;
+    font-weight: bold;
+}
+
+.email-body {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 8px;
+    line-height: 1.8;
+    margin: 20px 0;
+    border: 1px solid #333;
+    position: relative;
+}
+
+.email-body::before {
+    content: '📧 SECURE MESSAGE';
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    background: #111;
+    padding: 0 10px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+.email-body p {
+    margin: 15px 0;
+}
+
+.email-body p:first-child {
+    margin-top: 0;
+}
+
+.highlight-text {
+    background: rgba(255, 255, 0, 0.2);
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: #ffff00;
+}
+
+.input-section {
+    background: rgba(0, 255, 0, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed #00ff00;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.input-field {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    background: rgba(0, 255, 0, 0.05);
+}
+
+.button {
+    background: linear-gradient(145deg, #003300, #001100);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 12px 24px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(0, 255, 0, 0.2);
+    transition: all 0.3s;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+}
+
+.flag-reveal {
+    background: linear-gradient(145deg, #001100, #003300);
+    border: 2px solid #00ff00;
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: none;
+    animation: flagReveal 1s ease-in-out;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+}
+
+@keyframes flagReveal {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff3333;
+    color: #ff6666;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    display: none;
+}
+
+.hint-section {
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px dashed #00ff00;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.hint-button {
+    background: transparent;
+    border: 1px dashed #666;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.hint-button:hover {
+    border-color: #00ff00;
+    color: #00ff00;
+}
+
+.hint {
+    background: rgba(0, 255, 0, 0.05);
+    border-left: 3px solid #00ff00;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-button {
+    background: linear-gradient(145deg, #333, #111);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.back-button:hover {
+    background: #00ff00;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ff00;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-float 3s linear infinite;
+}
+
+@keyframes particle-float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-field {
+        margin-bottom: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .mission-status {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .email-field {
+        flex-direction: column;
+    }
+    
+    .email-label {
+        margin-bottom: 5px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📧 CyberBase Mission 7: Encrypted Communications</h1>
+    <div class="mission-status">
+        <div class="status-indicator">🔐 Intercepted Message</div>
+        <div class="status-indicator">🎯 Intelligence Analysis</div>
+        <div class="status-indicator">🔍 Pattern Recognition</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="terminal">
+        <div class="mission-brief">
+            <p><strong>🎯 Mission Brief:</strong></p>
+            <p>Agent, our cyber surveillance team has intercepted a suspicious email transmission from ShadowNet operatives. The message appears to contain hidden intelligence related to a training program. Your mission: Analyze the communication and extract the access code using contextual clues.</p>
+            <p><strong>⚠️ Classification:</strong> The code is hidden in plain sight - pay attention to the details!</p>
+        </div>
+        
+        <div class="email-client">
+            <div class="email-toolbar">
+                <div class="email-toolbar-icon close"></div>
+                <div class="email-toolbar-icon minimize"></div>
+                <div class="email-toolbar-icon maximize"></div>
+                <div class="email-title">🔒 SECURE EMAIL CLIENT v2.1</div>
+            </div>
+            
+            <div class="email-header">
+                <div class="email-field email-from">
+                    <span class="email-label">From:</span>
+                    <span class="email-value">training@youthcity2030.org</span>
+                </div>
+                <div class="email-field email-to">
+                    <span class="email-label">To:</span>
+                    <span class="email-value">you@cyberbase.mission</span>
+                </div>
+                <div class="email-field email-subject">
+                    <span class="email-label">Subject:</span>
+                    <span class="email-value">🚨 URGENT – Access Code Required</span>
+                </div>
+                <div class="email-field email-date">
+                    <span class="email-label">Date:</span>
+                    <span class="email-value">August 14, 2025 - 14:30 GMT</span>
+                </div>
+                <div class="email-field">
+                    <span class="email-label">Priority:</span>
+                    <span class="email-value" style="color: #ff6666;">HIGH</span>
+                </div>
+            </div>
+            
+            <div class="email-body">
+                <p>Hello Agent,</p>
+                
+                <p>Our intelligence confirms that you've been actively participating in the YouthCity2030 cybersecurity training program for the past <strong>3 weeks</strong>. Impressive dedication to your cover story.</p>
+                
+                <p>ShadowNet operatives want to test your <strong>memory retention</strong> and <strong>attention to detail</strong> before proceeding to the next phase of operations.</p>
+                
+                <p>The secret access code is <strong>embedded within this very communication</strong>, and it directly correlates to the training initiative you've been attending. Remember: everything revolves around the city, the youth, and our vision leading into 2030.</p>
+                
+                <p><em>Pro tip: Sometimes the most obvious answer is the correct one.</em></p>
+                
+                <p>Time is of the essence, Agent. Good luck!</p>
+                
+                <p style="color: #666; font-size: 0.9em;">
+                    <strong>-- ShadowNet Communications Division</strong><br>
+                    <em>"In plain sight, yet hidden from view"</em>
+                </p>
+            </div>
+            
+            <div class="input-section">
+                <p><strong>🔐 Enter Access Code:</strong></p>
+                <div class="input-group">
+                    <input type="text" id="userInput" class="input-field" placeholder="Enter the extracted access code..." autocomplete="off">
+                    <button class="button" onclick="checkCode()">🔓 Submit</button>
+                </div>
+                <div class="error-message" id="errorMessage">
+                    ❌ Access denied! Analyze the email more carefully for contextual clues.
+                </div>
+            </div>
+            
+            <div class="hint-section">
+                <button class="hint-button" onclick="toggleHint()">💡 Need a hint?</button>
+                <div class="hint" id="hint1">
+                    Try Harder
+                </div>
+            </div>
+        </div>
+
+        <div id="flag" class="flag-reveal">
+            <h2>🎉 ACCESS GRANTED!</h2>
+            <p>Excellent work, Agent! You've successfully extracted the hidden intelligence from the intercepted communication.</p>
+            <div style="font-size:1.3em;color:#00ff00;margin:15px 0;padding:15px;background:rgba(0,255,0,0.1);border-radius:8px;">
+                <strong>CLASSIFIED INTELLIGENCE:</strong> <span id="flagText"></span>
+            </div>
+            <p>Your analytical skills have proven invaluable in this cyber intelligence operation!</p>
+        </div>
+    </div>
+    
+    <a href="#" class="back-button" onclick="history.back()">⬅ Return to Mission Control</a>
+</div>
+
+<script>
+// Initialize particles effect
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(particle);
+    
+    setTimeout(() => {
+        particle.remove();
+    }, 5000);
+}
+
+setInterval(createParticle, 3000);
+
+let attempts = 0;
+const maxAttempts = 3;
+
+function checkCode() {
+    const input = document.getElementById('userInput');
+    const userInput = input.value.trim().toLowerCase();
+    const errorMessage = document.getElementById('errorMessage');
+    const encodedFlag = "Q3liZXJCYXNlIHt5b3V0aGNpdHkyMDMwfQ=="; // Base64
+    
+    attempts++;
+    
+    if (userInput === "youthcity2030") {
+        // Success!
+        const decodedFlag = atob(encodedFlag);
+        document.getElementById('flagText').textContent = decodedFlag;
+        document.getElementById('flag').style.display = 'block';
+        
+        // Add celebration effect
+        for(let i = 0; i < 15; i++) {
+            setTimeout(() => createParticle(), i * 100);
+        }
+        
+        // Scroll to flag
+        document.getElementById('flag').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Hide error message
+        errorMessage.style.display = 'none';
+        
+    } else {
+        // Show error with encouraging message
+        errorMessage.style.display = 'block';
+        
+        if (attempts >= maxAttempts) {
+            errorMessage.innerHTML = '💡 <strong>Hint:</strong> Look at the email sender domain and the training program mentioned. Combine the key elements!';
+        }
+        
+        // Add error animation to input
+        input.style.border = '2px solid #ff3333';
+        input.style.boxShadow = '0 0 10px rgba(255, 51, 51, 0.5)';
+        
+        setTimeout(() => {
+            input.style.border = '2px solid #00ff00';
+            input.style.boxShadow = 'none';
+        }, 1000);
+        
+        // Clear input and refocus
+        input.value = '';
+        input.focus();
+    }
+}
+
+// Toggle hint function
+function toggleHint() {
+    const hint = document.getElementById('hint1');
+    if (hint.style.display === 'none' || hint.style.display === '') {
+        hint.style.display = 'block';
+    } else {
+        hint.style.display = 'none';
+    }
+}
+
+// Enter key support
+document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        checkCode();
+    }
+});
+
+// Focus on input when page loads
+window.onload = function() {
+    document.getElementById('userInput').focus();
+};
+</script>
+
+</body>
+</html>

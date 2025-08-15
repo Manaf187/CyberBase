@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberBase Command Center - Access Granted</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap');
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Share Tech Mono', monospace;
+        background: #000;
+        color: #00ff00;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* Matrix Rain Effect */
+    .matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        opacity: 0.1;
+    }
+
+    .matrix-char {
+        position: absolute;
+        color: #00ff00;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 18px;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(-100vh); opacity: 1; }
+        100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* Scanning Grid Background */
+    .grid-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(rgba(0,255,0,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,0,0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: -1;
+        animation: gridPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+
+    /* Static Background Elements */
+    .radar-container {
+        display: none;
+    }
+
+    /* Header Section */
+    .header-container {
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+        margin-bottom: 2rem;
+    }
+
+    .access-status {
+        color: #ff6b6b;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        animation: accessGranted 3s ease-out forwards;
+        letter-spacing: 2px;
+    }
+
+    @keyframes accessGranted {
+        0% { color: #ff6b6b; }
+        50% { color: #ffff00; }
+        100% { color: #00ff00; }
+    }
+
+    .logo-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 2rem;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(45deg, #00ff00, #00ccaa, #0099ff);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Orbitron', monospace;
+        font-size: 3rem;
+        font-weight: 900;
+        margin: 0 auto;
+        position: relative;
+        box-shadow: 
+            0 0 30px rgba(0,255,0,0.5),
+            0 8px 32px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: translateY(-5px);
+        box-shadow: 
+            0 0 40px rgba(0,255,0,0.6),
+            0 15px 40px rgba(0,0,0,0.4);
+    }
+
+    .logo::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 23px;
+        background: linear-gradient(45deg, rgba(0,255,0,0.3), rgba(0,204,170,0.3), rgba(0,153,255,0.3));
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .logo:hover::before {
+        opacity: 1;
+    }
+
+    .main-title {
+        font-family: 'Orbitron', monospace;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 900;
+        color: #00ff00;
+        text-shadow: 
+            0 0 10px rgba(0,255,0,0.5),
+            0 0 20px rgba(0,255,0,0.3),
+            0 0 30px rgba(0,255,0,0.1);
+        margin-bottom: 1rem;
+        letter-spacing: 3px;
+        transition: all 0.3s ease;
+    }
+
+    .main-title:hover {
+        text-shadow: 
+            0 0 15px rgba(0,255,0,0.8),
+            0 0 25px rgba(0,255,0,0.5),
+            0 0 35px rgba(0,255,0,0.3);
+    }
+
+    .subtitle {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.5rem;
+        color: #00ccaa;
+        font-weight: 300;
+        margin-bottom: 3rem;
+        animation: typewriter 4s steps(40) 1s forwards;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid #00ff00;
+        width: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @keyframes typewriter {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    /* Mission Brief Section */
+    .mission-brief {
+        max-width: 900px;
+        margin: 0 auto 4rem;
+        padding: 0 2rem;
+        position: relative;
+    }
+
+    .brief-container {
+        background: linear-gradient(135deg, 
+            rgba(0,0,0,0.9) 0%, 
+            rgba(0,50,0,0.3) 50%, 
+            rgba(0,0,0,0.9) 100%);
+        border: 2px solid #00ff00;
+        border-radius: 20px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 
+            0 0 50px rgba(0,255,0,0.3),
+            inset 0 0 50px rgba(0,255,0,0.05);
+    }
+
+    .brief-container::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #00ff00, #00ccaa, #0099ff, #00ff00);
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+    }
+
+    .brief-container:hover::before {
+        opacity: 0.6;
+    }
+
+    .classified-header {
+        color: #ff6b6b;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 0.5rem;
+        border: 1px dashed #ff6b6b;
+        border-radius: 5px;
+        animation: urgentBlink 1.5s infinite;
+        letter-spacing: 3px;
+    }
+
+    @keyframes urgentBlink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+
+    .mission-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #e0e0e0;
+        text-align: justify;
+        margin-bottom: 2rem;
+    }
+
+    .threat-level {
+        background: rgba(255,0,0,0.2);
+        border: 2px solid #ff3333;
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+        color: #ff6b6b;
+        font-weight: bold;
+        font-size: 1.2rem;
+        animation: threatPulse 2s infinite;
+    }
+
+    @keyframes threatPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,0,0,0.3); }
+        50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,0,0.5); }
+    }
+
+    /* Mission Grid */
+    .missions-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem 4rem;
+    }
+
+    .missions-title {
+        font-family: 'Orbitron', monospace;
+        font-size: 2.5rem;
+        text-align: center;
+        color: #00ccaa;
+        margin-bottom: 3rem;
+        text-shadow: 0 0 15px #00ccaa;
+    }
+
+    .missions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .mission-card {
+        background: linear-gradient(135deg, 
+            rgba(0,0,0,0.8) 0%, 
+            rgba(0,100,150,0.1) 50%, 
+            rgba(0,0,0,0.8) 100%);
+        border: 2px solid #0099ff;
+        border-radius: 15px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        backdrop-filter: blur(5px);
+    }
+
+    .mission-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(0,255,0,0.2) 50%, 
+            transparent 100%);
+        transition: left 0.6s ease;
+    }
+
+    .mission-card:hover::before {
+        left: 100%;
+    }
+
+    .mission-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: #00ff00;
+        box-shadow: 
+            0 15px 35px rgba(0,255,0,0.3),
+            0 5px 15px rgba(0,153,255,0.2);
+    }
+
+    .mission-number {
+        font-family: 'Orbitron', monospace;
+        font-size: 3rem;
+        font-weight: 900;
+        color: #0099ff;
+        text-shadow: 0 0 15px #0099ff;
+        margin-bottom: 1rem;
+        opacity: 0.7;
+    }
+
+    .mission-title {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #00ff00;
+        margin-bottom: 1rem;
+    }
+
+    .mission-description {
+        color: #cccccc;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+    }
+
+    .difficulty-badge {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .difficulty-easy { background: rgba(0,255,0,0.2); color: #00ff00; border: 1px solid #00ff00; }
+    .difficulty-medium { background: rgba(255,193,7,0.2); color: #ffC107; border: 1px solid #ffC107; }
+    .difficulty-hard { background: rgba(255,0,0,0.2); color: #ff6b6b; border: 1px solid #ff6b6b; }
+
+    /* Status Bar */
+    .status-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.9);
+        border-top: 2px solid #00ff00;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        z-index: 100;
+    }
+
+    .status-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #00ff00;
+        animation: statusBlink 2s infinite;
+    }
+
+    @keyframes statusBlink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .subtitle {
+            font-size: 1.2rem;
+            white-space: normal;
+            border-right: none;
+            width: auto;
+            animation: none;
+        }
+        
+        .brief-container {
+            padding: 2rem 1.5rem;
+        }
+        
+        .missions-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .status-bar {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    /* Loading Animation */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 1s ease;
+    }
+
+    .loading-overlay.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .loading-text {
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 1.5rem;
+        color: #00ff00;
+        animation: loadingDots 2s infinite;
+    }
+
+    @keyframes loadingDots {
+        0% { content: 'INITIALIZING CYBERBASE'; }
+        33% { content: 'INITIALIZING CYBERBASE.'; }
+        66% { content: 'INITIALIZING CYBERBASE..'; }
+        100% { content: 'INITIALIZING CYBERBASE...'; }
+    }
+</style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text">INITIALIZING CYBERBASE...</div>
+    </div>
+
+    <div class="matrix-bg" id="matrixBg"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="header-container">
+        <div class="access-status">🔴 UNAUTHORIZED ACCESS DETECTED → 🟡 VERIFYING CREDENTIALS → 🟢 ACCESS GRANTED</div>
+        
+        <div class="logo-container">
+            <img src="logo.png" alt="CyberBase Logo" class="logo">
+        </div>
+        
+        <h1 class="main-title">CYBERBASE</h1>
+        <div class="subtitle">ELITE CYBER WARFARE COMMAND CENTER</div>
+    </div>
+
+    <div class="mission-brief">
+        <div class="brief-container">
+            <div class="classified-header">⚠️ CLASSIFIED OPERATION - CLEARANCE LEVEL: ALPHA ⚠️</div>
+            
+            <p class="mission-text">
+                <strong style="color: #00ff00;">AGENT BRIEFING:</strong> Intelligence networks have detected unprecedented cyber attacks from the shadow organization known as <strong style="color: #ff6b6b;">SHADOWNET</strong>. Their distributed operations span multiple digital domains, each protected by sophisticated encryption protocols.
+            </p>
+            
+            <p class="mission-text">
+                Your mission: Infiltrate their network layers, decode their communications, extract critical intelligence, and neutralize their threat before they execute their final protocol. Each mission represents a crucial piece of their operational puzzle.
+            </p>
+            
+            <div class="threat-level">
+                🚨 THREAT LEVEL: CRITICAL | MISSIONS ACTIVE: 10 | TIME SENSITIVE 🚨
+            </div>
+        </div>
+    </div>
+
+    <div class="missions-container">
+        <h2 class="missions-title">⚡ ACTIVE MISSION PROTOCOLS ⚡</h2>
+        
+        <div class="missions-grid">
+            <a href="mission1.html" class="mission-card">
+                <div class="mission-number">01</div>
+                <div class="mission-title">🔓 CODE DETECTIVE</div>
+                <div class="mission-description">Decrypt ShadowNet's ROT13 encoded communications and extract the first intelligence package.</div>
+                <div class="difficulty-badge difficulty-easy">EASY</div>
+            </a>
+            
+            <a href="mission2.html" class="mission-card">
+                <div class="mission-number">02</div>
+                <div class="mission-title">💻 TERMINAL BREACH</div>
+                <div class="mission-description">Gain access to their web terminal and navigate through their security protocols.</div>
+                <div class="difficulty-badge difficulty-easy">EASY</div>
+            </a>
+            
+            <a href="mission3.html" class="mission-card">
+                <div class="mission-number">03</div>
+                <div class="mission-title">🖼️ METADATA HUNT</div>
+                <div class="mission-description">Extract hidden metadata from compromised image files containing classified intel.</div>
+                <div class="difficulty-badge difficulty-medium">INTERMEDIATE</div>
+            </a>
+            
+            <a href="mission4.html" class="mission-card">
+                <div class="mission-number">04</div>
+                <div class="mission-title">🏛️ CIPHER BREAK</div>
+                <div class="mission-description">Break through ancient encryption methods adapted for modern cyber warfare.</div>
+                <div class="difficulty-badge difficulty-easy">EASY</div>
+            </a>
+            
+            <a href="mission5.html" class="mission-card">
+                <div class="mission-number">05</div>
+                <div class="mission-title">🚀 FIRTS STEPS</div>
+                <div class="mission-description">Establish initial connection with their network infrastructure and map entry points.</div>
+                <div class="difficulty-badge difficulty-easy">EASY</div>
+            </a>
+            
+            <a href="mission6.html" class="mission-card">
+                <div class="mission-number">06</div>
+                <div class="mission-title">💥 CODE BREACH</div>
+                <div class="mission-description">Analyze compromised source code to identify vulnerabilities and backdoors.</div>
+                <div class="difficulty-badge difficulty-medium">INTERMEDIATE</div>
+            </a>
+            
+            <a href="mission7.html" class="mission-card">
+                <div class="mission-number">07</div>
+                <div class="mission-title">🧩 ENCRYPTED PROTOCOL</div>
+                <div class="mission-description">Solve complex word puzzles that serve as keys to their encryption systems.</div>
+                <div class="difficulty-badge difficulty-medium">INTERMEDIATE</div>
+            </a>
+            
+            <a href="mission8.html" class="mission-card">
+                <div class="mission-number">08</div>
+                <div class="mission-title">📊 The ORACLE PROTOCOL</div>
+                <div class="mission-description">Reverse Base64 encoding to reveal critical operational data transmissions.</div>
+                <div class="difficulty-badge difficulty-easy">INTERMEDIATE</div>
+            </a>
+            
+            <a href="mission9.html" class="mission-card">
+                <div class="mission-number">09</div>
+                <div class="mission-title">🔐 LOCKDOWN</div>
+                <div class="mission-description">Bypass advanced security locks protecting their core systems and databases.</div>
+                <div class="difficulty-badge difficulty-hard">EXPERT</div>
+            </a>
+            
+            <a href="mission10.html" class="mission-card">
+                <div class="mission-number">10</div>
+                <div class="mission-title">🎯 FINAL PROTOCOL</div>
+                <div class="mission-description">Execute the final logic sequence to neutralize ShadowNet's ultimate weapon.</div>
+                <div class="difficulty-badge difficulty-hard">EXPERT</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-indicator"></div>
+            <span>CYBERBASE ONLINE</span>
+        </div>
+        <div class="status-item">
+            <span>AGENT STATUS: ACTIVE</span>
+        </div>
+        <div class="status-item">
+            <span>SECURITY LEVEL: MAXIMUM</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator"></div>
+            <span>READY FOR DEPLOYMENT</span>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            for (let i = 0; i < 50; i++) {
+                const char = document.createElement('div');
+                char.className = 'matrix-char';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                char.style.left = Math.random() * 100 + '%';
+                char.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                char.style.animationDelay = Math.random() * 2 + 's';
+                char.style.fontSize = (Math.random() * 10 + 14) + 'px';
+                matrixBg.appendChild(char);
+            }
+        }
+
+        // Loading sequence
+        function initializeSystem() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.querySelector('.loading-text');
+            
+            const messages = [
+                'INITIALIZING CYBERBASE...',
+                'LOADING SECURITY PROTOCOLS...',
+                'ESTABLISHING SECURE CONNECTION...',
+                'VERIFYING AGENT CREDENTIALS...',
+                'ACCESS GRANTED - WELCOME AGENT'
+            ];
+            
+            let messageIndex = 0;
+            
+            const messageInterval = setInterval(() => {
+                loadingText.textContent = messages[messageIndex];
+                messageIndex++;
+                
+                if (messageIndex >= messages.length) {
+                    clearInterval(messageInterval);
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hide');
+                        createMatrixRain();
+                        playStartupSounds();
+                    }, 1000);
+                }
+            }, 800);
+        }
+
+        // Startup sound effects (visual feedback)
+        function playStartupSounds() {
+            // Create visual feedback for "sounds"
+            const statusItems = document.querySelectorAll('.status-indicator');
+            statusItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.animation = 'statusBlink 0.5s infinite';
+                }, index * 200);
+            });
+        }
+
+        // Mission card hover effects
+        function initializeMissionCards() {
+            const cards = document.querySelectorAll('.mission-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const number = card.querySelector('.mission-number');
+                    number.style.transform = 'scale(1.2) rotate(5deg)';
+                    number.style.transition = 'all 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const number = card.querySelector('.mission-number');
+                    number.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            initializeSystem();
+            initializeMissionCards();
+        });
+
+        // Add typing effect to subtitle
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.textContent = '';
+            element.style.borderRight = '3px solid #00ff00';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Blinking cursor effect
+                    setInterval(() => {
+                        element.style.borderRight = element.style.borderRight === 'none' ? '3px solid #00ff00' : 'none';
+                    }, 500);
+                }
+            }
+            type();
+        }
+
+        // Easter egg - Konami code
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                document.body.style.animation = 'hue-rotate 2s linear infinite';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 5000);
+                konamiCode = [];
+            }
+        });
+
+        // Add hue-rotate animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes hue-rotate {
+                from { filter: hue-rotate(0deg); }
+                to { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
