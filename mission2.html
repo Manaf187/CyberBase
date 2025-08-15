@@ -381,7 +381,6 @@ h1::before {
     100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     h1 { font-size: 2.5em; letter-spacing: 1px; }
     .container { padding: 15px; }
@@ -474,7 +473,6 @@ function createCodeRain() {
     }
 }
 
-// Track right-click events (source viewing attempts)
 let rightClickCount = 0;
 let viewSourceAttempts = 0;
 
@@ -482,7 +480,6 @@ document.addEventListener('contextmenu', function(e) {
     rightClickCount++;
     
     if (rightClickCount === 1) {
-        // Show encouraging message
         setTimeout(() => {
             const hint = document.createElement('div');
             hint.style.position = 'fixed';
@@ -507,9 +504,7 @@ document.addEventListener('contextmenu', function(e) {
     }
 });
 
-// Detect keyboard shortcuts for viewing source
 document.addEventListener('keydown', function(e) {
-    // Ctrl+U or Cmd+Option+U
     if ((e.ctrlKey && e.key === 'u') || (e.metaKey && e.altKey && e.key === 'u')) {
         viewSourceAttempts++;
         
@@ -541,7 +536,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Fun console message for curious students
 console.log('🎯 SOURCE CODE DETECTIVE CHALLENGE');
 console.log('═══════════════════════════════════');
 console.log('📋 Mission: Find the hidden flag in HTML comments');
@@ -553,11 +547,9 @@ console.log('💡 Pro tip: Use Ctrl+F to search for "CyberBase" in the source!')
 console.log('');
 console.log('🚀 This console won\'t help you this time - you need the HTML source!');
 
-// Initialize effects
 document.addEventListener('DOMContentLoaded', function() {
     createCodeRain();
     
-    // Refresh code rain periodically
     setInterval(() => {
         if (Math.random() < 0.3) { // 30% chance
             const codeRain = document.getElementById('codeRain');
@@ -567,7 +559,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 20000);
 });
 
-// Easter egg: If they try to inspect element instead
 document.addEventListener('keydown', function(e) {
     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
         setTimeout(() => {
@@ -578,4 +569,5 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 </body>
+
 </html>
