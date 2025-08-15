@@ -28,7 +28,6 @@ body {
     position: relative;
 }
 
-/* Digital rain effect */
 .digital-rain {
     position: fixed;
     top: 0;
@@ -56,7 +55,6 @@ body {
     100% { top: 100vh; opacity: 0; }
 }
 
-/* Circuit board pattern overlay */
 .circuit-overlay {
     position: fixed;
     top: 0;
@@ -559,7 +557,6 @@ h1::before {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     h1 { font-size: 2.5em; letter-spacing: 1px; }
     .container { margin: 10px; padding: 20px; }
@@ -641,12 +638,10 @@ h1::before {
 const originalCipher = "FbehuEdvh{f3cdu_z4v_f0ro}";
 const correctAnswer = "CyberBase{c3sar_w4s_c0ol}";
 
-// Let's verify the correct answer by decrypting it
 console.log('Cipher:', originalCipher);
 console.log('Expected:', correctAnswer);
 console.log('Actual decrypt (-3):', caesarShift(originalCipher, -3));
 
-// Create digital rain effect
 function createDigitalRain() {
     const rainContainer = document.getElementById('digitalRain');
     const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*(){}[]';
@@ -661,14 +656,12 @@ function createDigitalRain() {
         
         rainContainer.appendChild(drop);
         
-        // Remove and recreate drops periodically
         setTimeout(() => {
             drop.remove();
         }, 8000);
     }
 }
 
-// Caesar cipher function
 function caesarShift(text, shift) {
     return text.replace(/[a-zA-Z]/g, function(char) {
         const start = char <= 'Z' ? 65 : 97;
@@ -676,12 +669,10 @@ function caesarShift(text, shift) {
     });
 }
 
-// Shift cipher with animation
 function shiftCipher(shift) {
     const cipherElement = document.getElementById('cipherText');
     const decodedElement = document.getElementById('decodedText');
     
-    // Add glitch effect
     cipherElement.style.animation = 'none';
     setTimeout(() => {
         cipherElement.style.animation = 'cipherGlow 3s infinite ease-in-out';
@@ -689,7 +680,6 @@ function shiftCipher(shift) {
     
     const shifted = caesarShift(originalCipher, shift);
     
-    // Animate the decoding
     let displayText = '';
     let index = 0;
     
@@ -702,7 +692,6 @@ function shiftCipher(shift) {
             decodedElement.textContent = shifted;
             clearInterval(revealInterval);
             
-            // Check if correct
             if (shifted === correctAnswer) {
                 decodedElement.style.color = '#00ff00';
                 decodedElement.style.textShadow = '0 0 25px #00ff00';
@@ -716,19 +705,16 @@ function shiftCipher(shift) {
     }, 50);
 }
 
-// Reset function
 function resetCipher() {
     document.getElementById('decodedText').textContent = 'Advanced tools ready. Click a shift button...';
     document.getElementById('decodedText').style.color = '#00ff00';
     document.getElementById('decodedText').style.textShadow = '0 0 15px #00ff00';
 }
 
-// Manual decryption check
 function checkDecryption() {
     const userInput = document.getElementById('manualDecrypt').value.trim();
     const resultElement = document.getElementById('decryptResult');
     
-    // Calculate the correct answer dynamically
     const actualCorrectAnswer = caesarShift(originalCipher, -3);
     
     console.log('User input:', userInput);
@@ -741,7 +727,6 @@ function checkDecryption() {
         resultElement.textContent = '🎉 SUCCESS! Flag verified: ' + actualCorrectAnswer;
         createSuccessEffect();
         
-        // Hide unlock section
         document.getElementById('toolUnlock').style.display = 'none';
         
     } else if (userInput.length > 0) {
@@ -750,10 +735,8 @@ function checkDecryption() {
         resultElement.style.color = '#ff3366';
         resultElement.textContent = '❌ Incorrect decryption. Analyze the cipher pattern more carefully.';
         
-        // Debug info in console
         console.log('Decryption attempt failed. Expected:', actualCorrectAnswer);
         
-        // Add shake effect
         document.querySelector('.decrypt-input').style.animation = 'shake 0.5s';
         setTimeout(() => {
             document.querySelector('.decrypt-input').style.animation = '';
@@ -761,7 +744,6 @@ function checkDecryption() {
     }
 }
 
-// Unlock advanced tools
 function checkUnlock() {
     const unlockInput = document.getElementById('unlockCode').value.trim().toUpperCase();
     const advancedTools = document.getElementById('advancedTools');
@@ -771,7 +753,6 @@ function checkUnlock() {
         advancedTools.style.display = 'block';
         toolUnlock.style.display = 'none';
         
-        // Show unlock message
         const unlockMsg = document.createElement('div');
         unlockMsg.style.background = 'rgba(0, 50, 50, 0.8)';
         unlockMsg.style.border = '2px solid #00ffff';
@@ -785,7 +766,6 @@ function checkUnlock() {
         
         advancedTools.appendChild(unlockMsg);
         
-        // Reset decoded text
         document.getElementById('decodedText').textContent = 'Advanced tools ready. Click a shift button...';
         
     } else if (unlockInput.length > 0) {
@@ -795,7 +775,6 @@ function checkUnlock() {
         unlockResult.style.fontSize = '0.9em';
         unlockResult.textContent = '❌ Invalid unlock code. Keep analyzing...';
         
-        // Remove previous error messages
         const existingError = toolUnlock.querySelector('.unlock-error');
         if (existingError) existingError.remove();
         
@@ -808,7 +787,6 @@ function checkUnlock() {
     }
 }
 
-// Success effect
 function createSuccessEffect() {
     const container = document.querySelector('.container');
     container.style.animation = 'none';
@@ -819,7 +797,6 @@ function createSuccessEffect() {
     }, 2000);
 }
 
-// Easter egg: Show Caesar wheel on cipher click
 document.getElementById('cipherText').addEventListener('click', function() {
     const wheel = document.getElementById('caesarWheel');
     wheel.style.display = 'block';
@@ -829,15 +806,11 @@ document.getElementById('cipherText').addEventListener('click', function() {
     }, 3000);
 });
 
-// Initialize effects
 document.addEventListener('DOMContentLoaded', function() {
-    // Start digital rain
     createDigitalRain();
     setInterval(createDigitalRain, 8000);
     
-    // Add keyboard shortcuts
     document.addEventListener('keydown', function(e) {
-        // Only allow shortcuts if advanced tools are unlocked
         if (document.getElementById('advancedTools').style.display === 'block') {
             if (e.key === '1') shiftCipher(-1);
             if (e.key === '2') shiftCipher(-2);
@@ -847,7 +820,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Console easter egg
 console.log(`
 %c
  ██████╗██╗██████╗ ██╗  ██╗███████╗██████╗ 
@@ -867,4 +839,5 @@ Try manual decryption first - keyboard shortcuts only work after unlock!
 `, 'color: #00ffff; font-family: monospace;');
 </script>
 </body>
+
 </html>
