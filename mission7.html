@@ -515,7 +515,6 @@ h1 {
 </div>
 
 <script>
-// Initialize particles effect
 function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
@@ -542,31 +541,25 @@ function checkCode() {
     attempts++;
     
     if (userInput === "youthcity2030") {
-        // Success!
         const decodedFlag = atob(encodedFlag);
         document.getElementById('flagText').textContent = decodedFlag;
         document.getElementById('flag').style.display = 'block';
         
-        // Add celebration effect
         for(let i = 0; i < 15; i++) {
             setTimeout(() => createParticle(), i * 100);
         }
         
-        // Scroll to flag
         document.getElementById('flag').scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        // Hide error message
         errorMessage.style.display = 'none';
         
     } else {
-        // Show error with encouraging message
         errorMessage.style.display = 'block';
         
         if (attempts >= maxAttempts) {
             errorMessage.innerHTML = '💡 <strong>Hint:</strong> Look at the email sender domain and the training program mentioned. Combine the key elements!';
         }
         
-        // Add error animation to input
         input.style.border = '2px solid #ff3333';
         input.style.boxShadow = '0 0 10px rgba(255, 51, 51, 0.5)';
         
@@ -575,13 +568,11 @@ function checkCode() {
             input.style.boxShadow = 'none';
         }, 1000);
         
-        // Clear input and refocus
         input.value = '';
         input.focus();
     }
 }
 
-// Toggle hint function
 function toggleHint() {
     const hint = document.getElementById('hint1');
     if (hint.style.display === 'none' || hint.style.display === '') {
@@ -591,18 +582,17 @@ function toggleHint() {
     }
 }
 
-// Enter key support
 document.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         checkCode();
     }
 });
 
-// Focus on input when page loads
 window.onload = function() {
     document.getElementById('userInput').focus();
 };
 </script>
 
 </body>
+
 </html>
