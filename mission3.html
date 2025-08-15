@@ -55,7 +55,6 @@ body {
     100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
 }
 
-/* Scanning effect */
 .scan-line {
     position: fixed;
     top: 0;
@@ -352,7 +351,6 @@ h1::before {
     color: #ff6600;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     h1 { font-size: 2.2em; letter-spacing: 1px; }
     .main-content { padding: 15px; }
@@ -360,7 +358,6 @@ h1::before {
     .download-button { padding: 12px 20px; font-size: 1em; margin: 10px 5px; }
 }
 
-/* Loading animation for image */
 .image-loading {
     display: inline-block;
     width: 300px;
@@ -390,7 +387,6 @@ h1::before {
         
         <p><strong>Your Mission:</strong> Download the image and extract hidden information using metadata analysis tools.</p>
         
-        <!-- Image container with hover effect -->
         <div class="image-container">
             <img src="mission3.jpg" alt="Suspicious Image - Contains Hidden Data" class="challenge-img" title="Right-click to save image">
             <div class="image-overlay">
@@ -398,7 +394,6 @@ h1::before {
             </div>
         </div>
         
-        <!-- Download buttons for different formats -->
         <div style="text-align: center;">
             <a href="mission3.jpg" download="suspicious_image.jpg" class="download-button">📥 Download JPG</a>
             <a href="mission3.jpg" download="evidence.jpg" class="download-button">🔍 Save as Evidence</a>
@@ -434,7 +429,6 @@ h1::before {
 </div>
 
 <script>
-// Create floating particles effect
 function createParticles() {
     const particlesContainer = document.getElementById('particles');
     
@@ -448,7 +442,6 @@ function createParticles() {
     }
 }
 
-// Add click tracking for educational purposes
 let downloadCount = 0;
 
 document.querySelectorAll('.download-button').forEach(button => {
@@ -483,22 +476,18 @@ document.querySelectorAll('.download-button').forEach(button => {
     });
 });
 
-// Add helpful console message
 console.log('🕵️ METADATA CHALLENGE ACTIVATED');
 console.log('📋 Mission Brief: Extract hidden flag from image metadata');
 console.log('🛠️ Tools needed: EXIF viewer (online or exiftool)');
 console.log('💡 Tip: Look for unusual fields in the metadata!');
 console.log('🎯 The flag format is: CyberBase{...}');
 
-// Image interaction effects
 document.querySelector('.challenge-img').addEventListener('click', function() {
-    // Add click effect
     this.style.transform = 'scale(0.95)';
     setTimeout(() => {
         this.style.transform = 'scale(1)';
     }, 150);
     
-    // Show analysis hint
     const hint = document.createElement('div');
     hint.style.position = 'fixed';
     hint.style.bottom = '20px';
@@ -522,7 +511,6 @@ document.querySelector('.challenge-img').addEventListener('click', function() {
     }, 5000);
 });
 
-// Add fade in animation style
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeIn {
@@ -532,10 +520,10 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize
 document.addEventListener('DOMContentLoaded', function() {
     createParticles();
 });
 </script>
 </body>
+
 </html>
