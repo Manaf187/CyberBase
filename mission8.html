@@ -347,12 +347,10 @@ h1 {
 </div>
 
 <script>
-// Global variables
 const messagesDiv = document.getElementById('messages');
 const encodedFlag = "Q3liZXJCYXNlezF0el9nMG9kXzJfam5vdy1qJH0=";
 let flagRevealed = false;
 
-// Simple, direct function to send message
 function sendMessage() {
     console.log("sendMessage function called!");
     
@@ -366,28 +364,20 @@ function sendMessage() {
         return;
     }
 
-    // Add user message
     addMessage("You", userInput, "user-message");
     
-    // Clear input
     input.value = '';
     
-    // Show typing indicator
     addMessage("Oracle", "processing query...", "bot-message", "typing");
     
-    // Get bot response after delay
     setTimeout(() => {
-        // Remove typing indicator
         const typingMsg = document.querySelector('.typing');
         if (typingMsg) typingMsg.remove();
         
-        // Get response
         const response = getBotResponse(userInput);
         
-        // Add bot response
         addMessage("Oracle", response.text, "bot-message");
         
-        // Show flag if triggered
         if (response.isFlag && !flagRevealed) {
             setTimeout(() => {
                 document.getElementById('encodedFlag').textContent = encodedFlag;
@@ -399,7 +389,6 @@ function sendMessage() {
     }, 1500);
 }
 
-// Function to add message to chat
 function addMessage(sender, text, messageClass, extraClass = "") {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${messageClass} ${extraClass}`;
@@ -408,7 +397,6 @@ function addMessage(sender, text, messageClass, extraClass = "") {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-// Bot response logic
 function getBotResponse(input) {
     const triggers = ['!', '@', '#', '$', '%', '^', '&', '*'];
     const hasSpecialChar = triggers.some(ch => input.includes(ch));
@@ -464,3 +452,4 @@ window.onload = function() {
 
 </body>
 </html>
+
