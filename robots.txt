@@ -1,38 +1,38 @@
-# seriously... what do you think you will find here??
-# 
-# anyways, since you are here, let me tell you a story..
-#
-# Once upon a time, in the middle of a heated CTF, there was this guy or a girl depends, lol.
-# He thought he was 1337 enough to "hack" my GitHub repo.
-# He spent HOURS fuzzing, bruteforcing, inspecting every pixel of the webapp,
-# thinking the secret would magically pop out.
-#
-# Meanwhile... the actual solution was one Google search away.
-# My GitHub profile was literally public.
-#
-# All he had to do was:
-#   AHAHAHAHA you think that i will give you the solution easily??
-#   wait untill the end of the compettition while we go through the write up ill explain it 
-#  whats comming next is real and serious you could have done that :)
-# In less than 2 minutes, you would’ve had every flag,
-# a guaranteed first place on the scoreboard,
-# and maybe even win a free coffee ☕
-#
-# But instead, you wasted your time here, 
-# 
-#
-# Moral of the story?
-# go back to the Challenges and start digging.and BTW, Google is OP. Linux is OP.
-# Work smarter, not harder :)
-# ___  ___               _      _____           
-# |  \/  |              | |    /  ___|          
-# | .  . |_   _ ___  ___| | ___\ `--.  ___  ___ 
-# | |\/| | | | / __|/ __| |/ _ \`--. \/ _ \/ __|
-# | |  | | |_| \__ \ (__| |  __/\__/ /  __/ (__ 
-# \_|  |_/\__,_|___/\___|_|\___\____/ \___|\___|
-  #                          YouthCity2030
-  #                          CyberBase
-
-#            Best Regards
-#  Mr. Osama & Mr. Manaf
-           
+#--------------------------------------------------------------------------------------------|
+# seriously... what do you think you will find here??                                        |
+#--------------------------------------------------------------------------------------------|
+# anyways, since you are here, let me tell you a story..                                     |
+#--------------------------------------------------------------------------------------------|
+# Once upon a time, in the middle of a heated CTF, there was this guy or a girl depends, lol.|
+# He thought he was 1337 enough to "hack" my GitHub repo.                                    | 
+# He spent HOURS fuzzing, bruteforcing, inspecting every pixel of the webapp,                |
+# thinking the secret would magically pop out.                                               |
+#--------------------------------------------------------------------------------------------|
+# Meanwhile... the actual solution was one Google search away.                               |
+# My GitHub profile was literally public.                                                    |
+#--------------------------------------------------------------------------------------------|
+# All he had to do was:                                                                      |
+#   AHAHAHAHA you think that i will give you the solution easily??                           |
+#   wait untill the end of the compettition while we go through the write up ill explain it  |
+#  whats comming next is real and serious you could have done that :)                        |
+# In less than 2 minutes, you would’ve had every flag,                                       |
+# a guaranteed first place on the scoreboard,                                                |
+# and maybe even win a free coffee ☕                                                       |
+#-------------------------------------------------------------------------------------------|
+# But instead, you wasted your time here,                                                   |
+# Moral of the story?                                                                       |
+# go back to the Challenges and start digging.and BTW, Google is OP. Linux is OP.           |
+# Work smarter, not harder :)                                                               |
+#-------------------------------------------------------------------------------------------|
+# ___  ___               _      _____                                                       |
+# |  \/  |              | |    /  ___|                                                      |
+# | .  . |_   _ ___  ___| | ___\ `--.  ___  ___                                             |
+# | |\/| | | | / __|/ __| |/ _ \`--. \/ _ \/ __|                                            |
+# | |  | | |_| \__ \ (__| |  __/\__/ /  __/ (__                                             |
+# \_|  |_/\__,_|___/\___|_|\___\____/ \___|\___|                                            |
+#                          YouthCity2030                                                    |
+#                          CyberBase                                                        |
+#                                                                                           |
+#            Best Regards                                                                   |
+#  Mr. Osama & Mr. Manaf                                                                    |
+#--------------------------------------------------------------------------------------------
