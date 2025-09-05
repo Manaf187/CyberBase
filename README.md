@@ -1,4 +1,4 @@
-# CyberBase – Intro to CTF 🇧🇭
+# CyberBase – Intro to CTF 
 
 This repository contains the source code and files for **CyberBase**, an introductory Capture The Flag (CTF) platform created for the students of **CyberBase YouthCity2030, Bahrain**.
 
